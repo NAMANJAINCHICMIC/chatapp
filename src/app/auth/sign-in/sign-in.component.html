@@ -1,0 +1,26 @@
+<p>sign-in works!</p>
+<form [formGroup]="loginForm" class="align-self-center">
+    <div class="form-group align-self-center">
+      <label for="exampleInputEmail1">Email address</label>
+      <input type="email" [ngClass]="{'is-invalid': controlName.email.errors && (controlName.email.touched || controlName.email.dirty), 'is-valid':controlName.email.valid}"  formControlName="email" class="form-control col-md-4" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+      <div *ngIf="controlName.email.errors?.['required']">
+        Email is required.
+      </div>
+      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Password</label>
+      <input type="password" class="form-control col-md-4" id="exampleInputPassword1" formControlName="password"  [ngClass]="{'is-invalid': controlName.password.errors && (controlName.password.touched || controlName.password.dirty), 'is-valid':controlName.password.valid}" placeholder="Password">
+      <div *ngIf="controlName.password.errors?.['required']">
+        Password is required.
+      </div>
+      
+    </div>
+    <!-- <div class="form-group form-check">
+      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div> -->
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <p>Don't have Account <a (click)="onClick()">Create One!</a></p>
+    <a href="#" >Forget Password</a>
+  </form>
