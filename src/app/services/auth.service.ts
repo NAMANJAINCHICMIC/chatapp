@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const AUTH_API ='http://192.180.2.159:4040/swagger/index.html'
+const AUTH_API ='http://192.180.2.159:4040/'
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -14,7 +14,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  login(email: string, password: string): Observable<any> {
+  login(email: string| null | undefined, password: string| null | undefined): Observable<any> {
     return this.http.post(
       AUTH_API + 'api/v1/Auth/UserLogin',
       {
@@ -25,7 +25,7 @@ export class AuthService {
     );
   }
 
-  register(firstName: string,  lastName: string, email: string, password: string,phone:number,dateOfBirth:string): Observable<any> {
+  register(firstName: string| null | undefined,  lastName: string| null | undefined, email: string| null | undefined, password: string| null | undefined,phone: string| null | undefined,dateOfBirth:string| null | undefined): Observable<any> {
     return this.http.post(
       AUTH_API + 'api/v1/RegisterUser',
       {
@@ -35,8 +35,8 @@ export class AuthService {
         password,
         phone,
         dateOfBirth
-      },
-      httpOptions
+      }
+      // httpOptions
     );
   }
 

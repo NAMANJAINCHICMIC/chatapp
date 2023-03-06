@@ -43,14 +43,14 @@
   
         </div>
         <div class="form-group col-md-4">
-          <label for="inputMobile">Mobile Number</label>
-          <input type="number" class="form-control" id="inputMobile" formControlName = "mobile" [ngClass]="{'is-invalid': controlName.mobile.errors && (controlName.mobile.touched || controlName.mobile.dirty), 'is-valid':controlName.mobile.valid}"  placeholder="Mobile Number">
+          <label for="inputphone">Mobile Number</label>
+          <input type="number" class="form-control" id="inputphone" formControlName = "phone" [ngClass]="{'is-invalid': controlName.phone.errors && (controlName.phone.touched || controlName.phone.dirty), 'is-valid':controlName.phone.valid}"  placeholder="Mobile Number">
         
-  <div *ngIf="controlName.mobile.errors?.['required']">
-    Mobile Number is required.
+  <div *ngIf="controlName.phone.errors?.['required']">
+    phone Number is required.
   </div>
-  <div *ngIf="controlName.mobile.errors?.['minlength']">
-    Mobile Number must be 10 digit long.
+  <div *ngIf="controlName.phone.errors?.['minlength']">
+    phone Number must be 10 digit long.
   </div>
         </div>
         
@@ -58,9 +58,9 @@
       <div class="form-row align-self-center justify-content-center">
         <div class="form-group col-md-4">
             <label for="inputDate">Date Of Birth</label>
-            <input type="date" class="form-control" id="inputDate" formControlName = "dob" [ngClass]="{'is-invalid': controlName.dob.errors && (controlName.dob.touched || controlName.dob.dirty), 'is-valid':controlName.dob.valid}"  placeholder="Date Of Birth">
+            <input type="date" class="form-control" id="inputDate" formControlName = "dateOfBirth" [ngClass]="{'is-invalid': controlName.dateOfBirth.errors && (controlName.dateOfBirth.touched || controlName.dateOfBirth.dirty), 'is-valid':controlName.dateOfBirth.valid}"  placeholder="Date Of Birth">
         
-  <div *ngIf="controlName.dob.errors?.['required']">
+  <div *ngIf="controlName.dateOfBirth.errors?.['required']">
     Date Of Birth is required.
   </div>
    

@@ -8,7 +8,8 @@ import {HttpClient, HttpClientModule}from '@angular/common/http';
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [CommonModule ,RouterModule, ReactiveFormsModule,HttpClientModule],
+  imports: [CommonModule ,RouterModule, ReactiveFormsModule, HttpClientModule],
+  providers: [ HttpClientModule, AuthService],
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.css']
 })
@@ -19,17 +20,17 @@ export class SignUpComponent {
     lastName: null,
     email: null,
     password: null,
-    mobile:null,
-    dob:null
+    phone:null,
+    dateOfBirth:null
   };
   registrationForm = new FormGroup(
     {
       firstName: new FormControl('', [Validators.required , Validators.minLength(3)]),
       lastName: new FormControl('', [Validators.required , Validators.minLength(3)]),
       email: new FormControl('', Validators.required),
-      mobile: new FormControl('',[Validators.required , Validators.minLength(10)]),
+      phone: new FormControl('',[Validators.required , Validators.minLength(10)]),
       password: new FormControl('',[Validators.required , Validators.minLength(6)]),
-      dob: new FormControl('', Validators.required),
+      dateOfBirth: new FormControl('', Validators.required),
     }
   )
 get controlName(){
@@ -39,9 +40,13 @@ onClick(){
   this.router.navigateByUrl("/sign-in");
 }
 onSubmit(){
+  let { firstName , lastName, email, password,phone,dateOfBirth} = this.registrationForm.value
   console.log(this.registrationForm.value);
-  // return this.http.post('http://192.180.2.159:4040/swagger/index.html/api/v1/RegisterUser',this.registrationForm)
-  // this.authService.register(firstName ,  lastName: string, email: string, password: string,phone:number,dateOfBirth:string).subscribe();
+  // this.http.post('http://192.180.2.159:4040/api/v1/RegisterUser',this.registrationForm.value)
+  this.authService.register(firstName, lastName, email, password,phone,dateOfBirth).subscribe(
+    (res)=>console.log(res)
+  );
+  // this.authService.register(this.registrationForm.value).subscribe();
 }
 
 }
