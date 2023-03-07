@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, Validators , ReactiveFormsModule} from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -11,14 +12,42 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./reset-password.component.css']
 })
 export class ResetPasswordComponent {
+  constructor(private router: Router,private authService: AuthService ){}
   resetForm = new FormGroup(
     {
-      newPassword: new FormControl('',[Validators.required ]),
-      comfirmPassword: new FormControl('',[Validators.required ]),
+      password: new FormControl('',[Validators.required ]),
+      confirmPassword: new FormControl('',[Validators.required ]),
      
     }
   )
 get controlName(){
   return this.resetForm.controls;
 }
+
+visibleNewPassword=true;
+visibleConfirmPassword=true;
+
+viewNewPassword(){
+  this.visibleNewPassword = !this.visibleNewPassword;
+}
+viewConfirmPassword(){
+  this.visibleConfirmPassword = !this.visibleConfirmPassword;
+}
+onSubmit(){
+  // const { email} = this.resetForm.value
+  console.log( this.authService.getToken())
+  console.log(this.resetForm.value);
+  // this.http.post('http://192.180.2.159:4040/api/v1/RegisterUser',this.registrationForm.value)
+  this.authService.resetPassword(this.resetForm.value).subscribe(
+    (res)=>{
+    console.log(res);
+    this.resetForm.reset();
+    // this.authService.storeToken(res.data );
+    
+    this.router.navigate(['home']);
+    }
+  );
+  // this.authService.register(this.registrationForm.value).subscribe();
+}
+
 }

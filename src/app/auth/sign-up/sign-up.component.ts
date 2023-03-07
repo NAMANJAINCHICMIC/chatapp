@@ -5,16 +5,22 @@ import { FormControl, FormGroup, ReactiveFormsModule ,Validators} from '@angular
 import { AuthService } from '../../services/auth.service';
 import {HttpClient, HttpClientModule}from '@angular/common/http';
 
+
 @Component({
   selector: 'app-sign-up',
   standalone: true,
   imports: [CommonModule ,RouterModule, ReactiveFormsModule, HttpClientModule],
-  providers: [ HttpClientModule, AuthService],
+  providers: [ HttpClientModule, AuthService  ],
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent {
+  visible=true;
+  viewPassword(){
+    this.visible = !this.visible;
+  }
   constructor(private router: Router , private http: HttpClient,private authService: AuthService){}
+  
   form: any = {
     firstName: null,
     lastName: null,
@@ -27,7 +33,7 @@ export class SignUpComponent {
     {
       firstName: new FormControl('', [Validators.required , Validators.minLength(3)]),
       lastName: new FormControl('', [Validators.required , Validators.minLength(3)]),
-      email: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required,Validators.email]),
       phone: new FormControl('',[Validators.required , Validators.minLength(10)]),
       password: new FormControl('',[Validators.required , Validators.minLength(6)]),
       dateOfBirth: new FormControl('', Validators.required),
@@ -40,13 +46,19 @@ onClick(){
   this.router.navigateByUrl("/sign-in");
 }
 onSubmit(){
-  let { firstName , lastName, email, password,phone,dateOfBirth} = this.registrationForm.value
+  const { firstName , lastName, email, password,phone,dateOfBirth} = this.registrationForm.value
   console.log(this.registrationForm.value);
-  // this.http.post('http://192.180.2.159:4040/api/v1/RegisterUser',this.registrationForm.value)
+
   this.authService.register(firstName, lastName, email, password,phone,dateOfBirth).subscribe(
-    (res)=>console.log(res)
+    (res)=>{
+      console.log(res)
+      this.registrationForm.reset();
+      this.authService.storeToken(res.data );
+      this.router.navigate(['home']);
+    }
   );
   // this.authService.register(this.registrationForm.value).subscribe();
 }
+
 
 }

@@ -1,41 +1,119 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule , Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule ,Validators} from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
-
+import { HttpClient,HttpClientModule } from '@angular/common/http';
+import { SocialLoginModule, SocialAuthServiceConfig, SocialAuthService, FacebookLoginProvider, SocialUser } from '@abacritt/angularx-social-login';
+import {
+  GoogleLoginProvider,
+  // FacebookLoginProvider
+} from '@abacritt/angularx-social-login';
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [RouterModule, CommonModule , ReactiveFormsModule],
+  imports: [CommonModule ,RouterModule, ReactiveFormsModule, HttpClientModule,SocialLoginModule],
+  providers: [ HttpClientModule, AuthService , 
+    {
+    provide: 'SocialAuthServiceConfig',
+    useValue: {
+      autoLogin: false,
+      providers: [
+        {
+          id: GoogleLoginProvider.PROVIDER_ID,
+          provider: new GoogleLoginProvider(
+            '467964487589-fv3ag1cieljsab26l3snjn5ghrfpo2j4.apps.googleusercontent.com'
+          )
+        },
+        {
+          id: FacebookLoginProvider.PROVIDER_ID,
+          provider: new FacebookLoginProvider('516188470694250')
+        }
+      ],
+      onError: (err) => {
+        console.error(err);
+      }
+    } as SocialAuthServiceConfig,
+  }
+],
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.css']
 })
-export class SignInComponent {
-  constructor(private router: Router,private authService: AuthService){}
+export class SignInComponent implements OnInit {
+
+  private accessToken = '';
+  user ?: SocialUser;
+  loggedIn ?: boolean;
+  constructor(private router: Router,private authService: AuthService ,private socialAuthService: SocialAuthService){}
   loginForm = new FormGroup(
     {
     
-      email: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required,Validators.email]),
      
       password: new FormControl('',[Validators.required ]),
      
     }
   )
+
+  ngOnInit() {
+    this.socialAuthService.authState.subscribe((user) => {
+      this.user = user;
+      this.loggedIn = (user != null);
+    });
+  }
+
 get controlName(){
   return this.loginForm.controls;
 }
 onClick(){
   this.router.navigateByUrl("/sign-up");
 }
+onClickForget(){
+  this.router.navigateByUrl("/forget-password");
+}
+
 
 onSubmit(){
-  let { email, password} = this.loginForm.value
+  const { email, password} = this.loginForm.value
   console.log(this.loginForm.value);
   // this.http.post('http://192.180.2.159:4040/api/v1/RegisterUser',this.registrationForm.value)
   this.authService.login(email, password).subscribe(
-    (res)=>console.log(res)
+    (res)=>{
+    console.log(res);
+    this.loginForm.reset();
+    this.authService.storeToken(res.data );
+    this.router.navigate(['home']);
+    }
   );
   // this.authService.register(this.registrationForm.value).subscribe();
 }
+visible=true;
+viewPassword(){
+  this.visible = !this.visible;
+}
+// externalLogin(){
+ 
+//   this.authService.signInWithGoogle();
+// }
+refreshToken(): void {
+  this.socialAuthService.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID);
+}
+// getAccessToken(): void {
+//   this.socialAuthService.getAccessToken(GoogleLoginProvider.PROVIDER_ID).then(accessToken => this.accessToken = accessToken);
+// }
+signInWithGoogle(): void {
+  this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then((x: any) => console.log(x));
+}
+signInWithFB(): void {
+  this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID).then((x: any) => console.log(x));
+}
+
+signOut(): void {
+  this.socialAuthService.signOut();
+}  
+
+getAccessToken(): void {
+  this.socialAuthService.getAccessToken(GoogleLoginProvider.PROVIDER_ID).then(accessToken => this.accessToken = accessToken);
+}
+
 }

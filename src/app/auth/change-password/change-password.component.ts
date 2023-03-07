@@ -23,4 +23,16 @@ export class ChangePasswordComponent {
 get controlName(){
   return this.resetForm.controls;
 }
+visibleOldPassword=true;
+visibleNewPassword=true;
+visibleComfirmPassword=true;
+viewOldPassword(){
+  this.visibleOldPassword = !this.visibleOldPassword;
+}
+viewNewPassword(){
+  this.visibleNewPassword = !this.visibleNewPassword;
+}
+viewComfirmPassword(){
+  this.visibleComfirmPassword = !this.visibleComfirmPassword;
+}
 }

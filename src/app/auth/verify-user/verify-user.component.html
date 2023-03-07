@@ -1,0 +1,34 @@
+<p>verify-user works!</p>
+
+<form [formGroup]="verifyForm" class="align-self-center"(ngSubmit)="onSubmit()">
+   
+    <div class="form-group align-self-center">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="email" [ngClass]="{'is-invalid': controlName.email.errors && (controlName.email.touched || controlName.email.dirty), 'is-valid':controlName.email.valid}"  formControlName="email" class="form-control col-md-4" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+        <div
+        *ngIf="controlName.email.invalid && (controlName.email.dirty || controlName.email.touched)"
+        class="alert alert-danger">
+        <div *ngIf="controlName.email.errors?.['required']">
+          Email is required.
+        </div>
+        </div>
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+      </div>
+
+      <div class="form-group col-md-4">
+        <label for="inputphone">OTP</label>
+        <input type="number" class="form-control" id="inputphone" formControlName="value"
+          [ngClass]="{'is-invalid': controlName.value.errors && (controlName.value.touched || controlName.value.dirty), 'is-valid':controlName.value.valid}"
+          placeholder="Mobile Number">
+        <div *ngIf="controlName.value.invalid && (controlName.value.dirty || controlName.value.touched)"
+          class="alert alert-danger">
+          <div *ngIf="controlName.value.errors?.['required']">
+            OTP is required.
+          </div>
+         
+        </div>
+      </div>
+  
+    <button type="submit" class="btn btn-primary">Submit</button>
+    
+  </form>
