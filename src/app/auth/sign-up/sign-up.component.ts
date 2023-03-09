@@ -16,6 +16,7 @@ import {HttpClient, HttpClientModule}from '@angular/common/http';
 })
 export class SignUpComponent {
   visible=true;
+  showError= false;
   viewPassword(){
     this.visible = !this.visible;
   }
@@ -46,6 +47,9 @@ onClick(){
   this.router.navigateByUrl("/sign-in");
 }
 onSubmit(){
+  if (this.registrationForm.valid) {
+    console.log('form submitted');
+
   const { firstName , lastName, email, password,phone,dateOfBirth} = this.registrationForm.value
   console.log(this.registrationForm.value);
 
@@ -58,6 +62,11 @@ onSubmit(){
     }
   );
   // this.authService.register(this.registrationForm.value).subscribe();
+} else {
+  // validate all form fields
+  console.log("show errors")
+  this.showError = true;
+}
 }
 
 

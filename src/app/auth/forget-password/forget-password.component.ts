@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./forget-password.component.css']
 })
 export class ForgetPasswordComponent {
+  showError= false;
   constructor(private router: Router,private authService: AuthService ){}
   forgetForm = new FormGroup(
     {
@@ -22,6 +23,8 @@ get controlName(){
   return this.forgetForm.controls;
 }
 onSubmit(){
+  if (this.forgetForm.valid) {
+    console.log('form submitted');
   const { email} = this.forgetForm.value
   console.log(this.forgetForm.value);
   // this.http.post('http://192.180.2.159:4040/api/v1/RegisterUser',this.registrationForm.value)
@@ -34,6 +37,11 @@ onSubmit(){
     }
   );
   // this.authService.register(this.registrationForm.value).subscribe();
+} else {
+  // validate all form fields
+  console.log("show errors")
+  this.showError = true;
+}
 }
 
 }

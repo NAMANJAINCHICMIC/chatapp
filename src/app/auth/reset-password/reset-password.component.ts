@@ -15,6 +15,7 @@ export class ResetPasswordComponent {
   passwordsMatching = false;
   isConfirmPasswordDirty = false;
   confirmPasswordClass = 'form-control';
+  showError= false;
 
   constructor(private router: Router,private authService: AuthService ){}
   resetForm = new FormGroup(
@@ -38,6 +39,9 @@ viewConfirmPassword(){
   this.visibleConfirmPassword = !this.visibleConfirmPassword;
 }
 onSubmit(){
+  if (this.resetForm.valid) {
+    console.log('form submitted');
+
   // const { email} = this.resetForm.value
   console.log( this.authService.getToken())
   console.log(this.resetForm.value);
@@ -52,6 +56,11 @@ onSubmit(){
     }
   );
   // this.authService.register(this.registrationForm.value).subscribe();
+} else {
+  // validate all form fields
+  console.log("show errors")
+  this.showError = true;
+}
 }
 checkPasswords(pw: string, cpw: string) {
   this.isConfirmPasswordDirty = true;

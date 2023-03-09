@@ -6,7 +6,7 @@
       [ngClass]="{'is-invalid': controlName.email.errors && (controlName.email.touched || controlName.email.dirty), 'is-valid':controlName.email.valid}"
       formControlName="email" class="form-control " id="exampleInputEmail1" aria-describedby="emailHelp"
       placeholder="Enter email">
-    <div class="alert alert-danger" *ngIf="controlName.email.errors?.['required'] && (controlName.email.touched || controlName.email.dirty)">
+    <div class="alert alert-danger" *ngIf="controlName.email.errors?.['required'] && showError ">
       Email is required.
     </div>
 
@@ -23,10 +23,10 @@
       </span>
     </div>
     <div class="alert alert-danger"
-      *ngIf="controlName.password.errors?.['required']">
+      *ngIf="controlName.password.errors?.['required'] && showError">
       Password is required.
     </div>
-    <div *ngIf="controlName.password.errors?.['minlength']" class="alert alert-danger">
+    <div *ngIf="controlName.password.errors?.['minlength'] && showError" class="alert alert-danger">
       Password must be at least 8 characters long.
     </div>
 

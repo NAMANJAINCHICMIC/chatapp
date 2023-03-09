@@ -7,7 +7,7 @@
       <input type="text" class="form-control "
         [ngClass]="{'is-invalid': controlName.firstName.errors && (controlName.firstName.touched || controlName.firstName.dirty), 'is-valid':controlName.firstName.valid}"
         formControlName="firstName" placeholder="First name">
-      <div *ngIf="controlName.firstName.invalid && (controlName.firstName.dirty || controlName.firstName.touched)"
+      <div *ngIf="controlName.firstName.invalid && showError "
         class="alert alert-danger">
 
         <div *ngIf="controlName.firstName.errors?.['required']">
@@ -24,7 +24,7 @@
       <input type="text" class="form-control " formControlName="lastName"
         [ngClass]="{'is-invalid': controlName.lastName.errors && (controlName.lastName.touched || controlName.lastName.dirty), 'is-valid':controlName.lastName.valid}"
         placeholder="Last name">
-      <div *ngIf="controlName.lastName.invalid && (controlName.lastName.dirty || controlName.lastName.touched)"
+      <div *ngIf="controlName.lastName.invalid && showError "
         class="alert alert-danger">
 
         <div *ngIf="controlName.lastName.errors?.['required']">
@@ -44,7 +44,7 @@
         [ngClass]="{'is-invalid': controlName.email.errors && (controlName.email.touched || controlName.email.dirty), 'is-valid':controlName.email.valid}"
         formControlName="email" placeholder="Email">
 
-      <div *ngIf="controlName.email.invalid && (controlName.email.dirty || controlName.email.touched)"
+      <div *ngIf="controlName.email.invalid && showError "
         class="alert alert-danger">
 
         Email is required.
@@ -57,7 +57,7 @@
       <input type="number" class="form-control" id="inputphone" formControlName="phone"
         [ngClass]="{'is-invalid': controlName.phone.errors && (controlName.phone.touched || controlName.phone.dirty), 'is-valid':controlName.phone.valid}"
         placeholder="Mobile Number">
-      <div *ngIf="controlName.phone.invalid && (controlName.phone.dirty || controlName.phone.touched)"
+      <div *ngIf="controlName.phone.invalid && showError "
         class="alert alert-danger">
         <div *ngIf="controlName.phone.errors?.['required']">
           phone Number is required.
@@ -75,7 +75,7 @@
       <input type="date" class="form-control" id="inputDate" formControlName="dateOfBirth"
         [ngClass]="{'is-invalid': controlName.dateOfBirth.errors && (controlName.dateOfBirth.touched || controlName.dateOfBirth.dirty), 'is-valid':controlName.dateOfBirth.valid}"
         placeholder="Date Of Birth">
-        <div *ngIf="controlName.dateOfBirth.invalid && (controlName.dateOfBirth.dirty || controlName.dateOfBirth.touched)"
+        <div *ngIf="controlName.dateOfBirth.invalid && showError "
         class="alert alert-danger">
       <div *ngIf="controlName.dateOfBirth.errors?.['required']">
         Date Of Birth is required.
@@ -97,7 +97,7 @@
             [ngClass]="visible?'fa fa-eye':'fa fa-eye-slash'" (click)="viewPassword()"></i>
         </span>
       </div>
-      <div *ngIf="controlName.password.invalid && (controlName.password.dirty || controlName.password.touched)"
+      <div *ngIf="controlName.password.invalid && showError "
       class="alert alert-danger">
       <div *ngIf="controlName.password.errors?.['required']">
         Password is required.

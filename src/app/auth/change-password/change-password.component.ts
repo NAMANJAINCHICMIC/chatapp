@@ -15,7 +15,7 @@ export class ChangePasswordComponent {
   passwordsMatching = false;
   isConfirmPasswordDirty = false;
   confirmPasswordClass = 'form-control';
-
+  showError= false;
   constructor(private router: Router,private authService: AuthService ){}
   changePasswordForm = new FormGroup(
     {
@@ -42,6 +42,8 @@ viewConfirmPassword(){
 }
 
 onSubmit(){
+  if (this.changePasswordForm.valid) {
+    console.log('form submitted');
   // const { email} = this.changePasswordForm.value
   console.log(this.changePasswordForm.value);
   // this.http.post('http://192.180.2.159:4040/api/v1/RegisterUser',this.registrationForm.value)
@@ -53,7 +55,11 @@ onSubmit(){
     this.router.navigate(['home']);
     }
   );
-  
+} else {
+  // validate all form fields
+  console.log("show errors")
+  this.showError = true;
+}
 }
 checkPasswords(pw: string, cpw: string) {
   this.isConfirmPasswordDirty = true;
