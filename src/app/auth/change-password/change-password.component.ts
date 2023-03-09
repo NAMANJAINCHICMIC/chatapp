@@ -44,10 +44,10 @@ viewConfirmPassword(){
 onSubmit(){
   if (this.changePasswordForm.valid) {
     console.log('form submitted');
-  // const { email} = this.changePasswordForm.value
+  const { oldPassword,password, confirmPassword}  = this.changePasswordForm.value
   console.log(this.changePasswordForm.value);
   // this.http.post('http://192.180.2.159:4040/api/v1/RegisterUser',this.registrationForm.value)
-  this.authService.changePassword(this.changePasswordForm.value).subscribe(
+  this.authService.changePassword(oldPassword,password).subscribe(
     (res)=>{
     console.log(res);
     this.changePasswordForm.reset();

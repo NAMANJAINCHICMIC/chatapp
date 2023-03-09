@@ -19,7 +19,7 @@ export class ResetPasswordComponent {
 
   constructor(private router: Router,private authService: AuthService ){}
   resetForm = new FormGroup(
-    {
+    { otp:new FormControl('', [Validators.required]),
       password: new FormControl('',[Validators.required , Validators.minLength(8)]),
       confirmPassword: new FormControl('',[Validators.required , Validators.minLength(8)]),
      
@@ -42,11 +42,11 @@ onSubmit(){
   if (this.resetForm.valid) {
     console.log('form submitted');
 
-  // const { email} = this.resetForm.value
+  const { otp ,password, confirmPassword} = this.resetForm.value
   console.log( this.authService.getToken())
   console.log(this.resetForm.value);
   // this.http.post('http://192.180.2.159:4040/api/v1/RegisterUser',this.registrationForm.value)
-  this.authService.resetPassword(this.resetForm.value).subscribe(
+  this.authService.resetPassword(otp ,password).subscribe(
     (res)=>{
     console.log(res);
     this.resetForm.reset();

@@ -33,7 +33,7 @@ onSubmit(){
     console.log(res);
     this.forgetForm.reset();
     // this.authService.storeToken(res.data );
-    this.router.navigate(['verify-user']);
+    this.router.navigate(['reset-password']);
     }
   );
   // this.authService.register(this.registrationForm.value).subscribe();

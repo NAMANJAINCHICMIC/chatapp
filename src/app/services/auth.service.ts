@@ -40,7 +40,7 @@ export class AuthService {
 
   login(email: string| null | undefined, password: string| null | undefined): Observable<any> {
     return this.http.post(
-      AUTH_API + 'api/v1/UserLogin',
+      AUTH_API + 'api/v1/user/login',
       {
         email,
         password,
@@ -51,7 +51,7 @@ export class AuthService {
 
   register(firstName: string| null | undefined,  lastName: string| null | undefined, email: string| null | undefined, password: string| null | undefined,phone: string| null | undefined,dateOfBirth:string| null | undefined): Observable<any> {
     return this.http.post(
-      AUTH_API + 'api/v1/RegisterUser',
+      AUTH_API + 'api/v1/user/register',
       {
         firstName,
         lastName,
@@ -66,7 +66,7 @@ export class AuthService {
 
   forgetPassword(email: string| null | undefined): Observable<any> {
     return this.http.post(
-      AUTH_API + 'api/v1/forget-password'+ '?email='+email,
+      AUTH_API + 'api/v1/forgetPassword'+ '?email='+email,
       
       httpOptions
     );
@@ -78,10 +78,10 @@ export class AuthService {
       httpOptions
     );
   }
-  resetPassword(data:any): Observable<any> {
+  resetPassword(otp: string| null | undefined,password: string| null | undefined,): Observable<any> {
     return this.http.post(
-      AUTH_API + 'api/v1/reset-password',
-      data,
+      AUTH_API + 'api/v1/resetPassword',
+      {otp,password},
       // httpOptions
       {
         headers: new HttpHeaders({
@@ -92,11 +92,13 @@ export class AuthService {
       }
     );
   }
-  changePassword(data:any): Observable<any> {
+  changePassword(oldPassword: string| null | undefined,password: string| null | undefined): Observable<any> {
     return this.http.post(
       // AUTH_API + 'api/v1/Auth/confirm-password',
-      AUTH_API + 'api/v1/change-password',
-     data,
+      AUTH_API + 'api/v1/changePassword',
+     {
+      oldPassword,password
+     },
       // httpOptions
       {
         headers: new HttpHeaders({

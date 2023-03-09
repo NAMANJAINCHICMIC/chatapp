@@ -18,11 +18,13 @@ const routes: Routes = [
     },
     {
         path: 'sign-in',
-        component: SignInComponent
+        component: SignInComponent,
+        canDeactivate:[AuthGuard]
     },
     {
         path: 'sign-up',
-        component: SignUpComponent
+        component: SignUpComponent,
+        canDeactivate:[AuthGuard]
     },
     {path:'reset-password',component: ResetPasswordComponent},
     {path:'verify-user',component: VerifyUserComponent},
