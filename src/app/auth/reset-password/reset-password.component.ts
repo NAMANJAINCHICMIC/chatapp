@@ -12,11 +12,15 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./reset-password.component.css']
 })
 export class ResetPasswordComponent {
+  passwordsMatching = false;
+  isConfirmPasswordDirty = false;
+  confirmPasswordClass = 'form-control';
+
   constructor(private router: Router,private authService: AuthService ){}
   resetForm = new FormGroup(
     {
-      password: new FormControl('',[Validators.required ]),
-      confirmPassword: new FormControl('',[Validators.required ]),
+      password: new FormControl('',[Validators.required , Validators.minLength(8)]),
+      confirmPassword: new FormControl('',[Validators.required , Validators.minLength(8)]),
      
     }
   )
@@ -49,5 +53,14 @@ onSubmit(){
   );
   // this.authService.register(this.registrationForm.value).subscribe();
 }
-
+checkPasswords(pw: string, cpw: string) {
+  this.isConfirmPasswordDirty = true;
+  if (pw == cpw) {
+    this.passwordsMatching = true;
+    this.confirmPasswordClass = 'form-control is-valid';
+  } else {
+    this.passwordsMatching = false;
+    this.confirmPasswordClass = 'form-control is-invalid';
+  }
+}
 }

@@ -1,4 +1,4 @@
-<p>verify-user works!</p>
+
 
 <form [formGroup]="verifyForm" class="align-self-center"(ngSubmit)="onSubmit()">
    
@@ -16,8 +16,8 @@
       </div>
 
       <div class="form-group col-md-4">
-        <label for="inputphone">OTP</label>
-        <input type="number" class="form-control" id="inputphone" formControlName="value"
+        <label for="inputotp">OTP</label>
+        <input type="number" class="form-control" id="inputotp" formControlName="value"
           [ngClass]="{'is-invalid': controlName.value.errors && (controlName.value.touched || controlName.value.dirty), 'is-valid':controlName.value.valid}"
           placeholder="Mobile Number">
         <div *ngIf="controlName.value.invalid && (controlName.value.dirty || controlName.value.touched)"

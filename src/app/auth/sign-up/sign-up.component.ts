@@ -34,8 +34,8 @@ export class SignUpComponent {
       firstName: new FormControl('', [Validators.required , Validators.minLength(3)]),
       lastName: new FormControl('', [Validators.required , Validators.minLength(3)]),
       email: new FormControl('', [Validators.required,Validators.email]),
-      phone: new FormControl('',[Validators.required , Validators.minLength(10)]),
-      password: new FormControl('',[Validators.required , Validators.minLength(6)]),
+      phone: new FormControl('',[Validators.required , Validators.minLength(10), Validators.maxLength(12)]),
+      password: new FormControl('',[Validators.required , Validators.minLength(8)]),
       dateOfBirth: new FormControl('', Validators.required),
     }
   )

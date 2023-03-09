@@ -1,20 +1,20 @@
-<p>Sign-in Page</p>
-<form [formGroup]="loginForm" class="align-self-center" (ngSubmit)="onSubmit()">
-  <div class="form-group align-self-center">
+
+<form [formGroup]="loginForm" class="form-horizontal m-4" (ngSubmit)="onSubmit()">
+  <div class="form-group col-sm-8">
     <label for="exampleInputEmail1">Email address</label>
     <input type="email" required
       [ngClass]="{'is-invalid': controlName.email.errors && (controlName.email.touched || controlName.email.dirty), 'is-valid':controlName.email.valid}"
-      formControlName="email" class="form-control col-md-4" id="exampleInputEmail1" aria-describedby="emailHelp"
+      formControlName="email" class="form-control " id="exampleInputEmail1" aria-describedby="emailHelp"
       placeholder="Enter email">
     <div class="alert alert-danger" *ngIf="controlName.email.errors?.['required'] && (controlName.email.touched || controlName.email.dirty)">
       Email is required.
     </div>
 
   </div>
-  <div class="form-group">
+  <div class="form-group col-sm-12 ">
     <label for="exampleInputPassword1">Password</label>
     <!-- <input type="password" class="form-control col-md-4" id="exampleInputPassword1" formControlName="password"  [ngClass]="{'is-invalid': controlName.password.errors && (controlName.password.touched || controlName.password.dirty), 'is-valid':controlName.password.valid}" placeholder="Password"> -->
-    <div class="row">
+    <div class="row row-sm-12">
       <input [type]="visible?'password':'text'" class="form-control col " id="inputPassword4" formControlName="password"
         [ngClass]="{'is-invalid': controlName.password.errors && (controlName.password.touched || controlName.password.dirty), 'is-valid':controlName.password.valid}"
         placeholder="Password">
@@ -23,8 +23,11 @@
       </span>
     </div>
     <div class="alert alert-danger"
-      *ngIf="controlName.password.errors?.['required']&& (controlName.password.touched || controlName.password.dirty)">
+      *ngIf="controlName.password.errors?.['required']">
       Password is required.
+    </div>
+    <div *ngIf="controlName.password.errors?.['minlength']" class="alert alert-danger">
+      Password must be at least 8 characters long.
     </div>
 
   </div>

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule , Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule ,Validators} from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
-import { HttpClient,HttpClientModule } from '@angular/common/http';
+import { HttpClient,HttpClientModule , HttpHeaders} from '@angular/common/http';
 import { SocialLoginModule, SocialAuthServiceConfig, SocialAuthService, FacebookLoginProvider, SocialUser } from '@abacritt/angularx-social-login';
 import {
   GoogleLoginProvider,
@@ -39,18 +39,42 @@ import {
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.css']
 })
+
+
 export class SignInComponent implements OnInit {
 
   private accessToken = '';
-  user ?: SocialUser;
+  user ?: SocialUser| null; 
   loggedIn ?: boolean;
-  constructor(private router: Router,private authService: AuthService ,private socialAuthService: SocialAuthService){}
+  showError= false;
+  constructor(private http: HttpClient ,private router: Router,private authService: AuthService ,private socialAuthService: SocialAuthService){
+    this.user = null;
+    
+    this.socialAuthService.authState.subscribe((user: SocialUser) => {
+      console.log(user);
+      
+      if (user) {
+      const httpOptions = {
+          headers: new HttpHeaders({
+             'Content-Type': 'application/json',
+            //  'Authorization': "Bearer "+ user.idToken
+        
+        })}
+        this.http.post<any>('http://192.180.0.192:4040/api/v1/GoogleAuth?Token='+user.idToken, httpOptions).subscribe((authToken: any) => {
+        console.log(authToken);
+         })	
+         this.authService.storeToken(user.idToken );
+         this.router.navigate(['home']);	  
+      }
+      this.user = user;
+    });
+  }
   loginForm = new FormGroup(
     {
     
       email: new FormControl('', [Validators.required,Validators.email]),
      
-      password: new FormControl('',[Validators.required ]),
+      password: new FormControl('',[Validators.required , Validators.minLength(8) ]),
      
     }
   )
@@ -74,11 +98,15 @@ onClickForget(){
 
 
 onSubmit(){
+  if (this.loginForm.valid) {
+    console.log('form submitted');
+
   const { email, password} = this.loginForm.value
   console.log(this.loginForm.value);
   // this.http.post('http://192.180.2.159:4040/api/v1/RegisterUser',this.registrationForm.value)
   this.authService.login(email, password).subscribe(
-    (res)=>{
+    (res )=>{
+      alert(res.message)
     console.log(res);
     this.loginForm.reset();
     this.authService.storeToken(res.data );
@@ -86,6 +114,12 @@ onSubmit(){
     }
   );
   // this.authService.register(this.registrationForm.value).subscribe();
+} else {
+  // validate all form fields
+  console.log("show errors")
+  this.showError = true;
+}
+
 }
 visible=true;
 viewPassword(){

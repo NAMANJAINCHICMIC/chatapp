@@ -30,7 +30,7 @@ onSubmit(){
     console.log(res);
     this.forgetForm.reset();
     // this.authService.storeToken(res.data );
-    // this.router.navigate(['home']);
+    this.router.navigate(['verify-user']);
     }
   );
   // this.authService.register(this.registrationForm.value).subscribe();

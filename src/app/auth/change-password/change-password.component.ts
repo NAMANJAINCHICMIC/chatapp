@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, Validators , ReactiveFormsModule} from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-change-password',
@@ -11,28 +12,57 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./change-password.component.css']
 })
 export class ChangePasswordComponent {
- 
-  resetForm = new FormGroup(
+  passwordsMatching = false;
+  isConfirmPasswordDirty = false;
+  confirmPasswordClass = 'form-control';
+
+  constructor(private router: Router,private authService: AuthService ){}
+  changePasswordForm = new FormGroup(
     {
       oldPassword: new FormControl('', Validators.required),
-      newPassword: new FormControl('',[Validators.required ]),
-      comfirmPassword: new FormControl('',[Validators.required ]),
+      password: new FormControl('',[Validators.required , Validators.minLength(8)]),
+      confirmPassword: new FormControl('',[Validators.required , Validators.minLength(8)]),
      
     }
   )
 get controlName(){
-  return this.resetForm.controls;
+  return this.changePasswordForm.controls;
 }
 visibleOldPassword=true;
 visibleNewPassword=true;
-visibleComfirmPassword=true;
+visibleConfirmPassword=true;
 viewOldPassword(){
   this.visibleOldPassword = !this.visibleOldPassword;
 }
 viewNewPassword(){
   this.visibleNewPassword = !this.visibleNewPassword;
 }
-viewComfirmPassword(){
-  this.visibleComfirmPassword = !this.visibleComfirmPassword;
+viewConfirmPassword(){
+  this.visibleConfirmPassword = !this.visibleConfirmPassword;
+}
+
+onSubmit(){
+  // const { email} = this.changePasswordForm.value
+  console.log(this.changePasswordForm.value);
+  // this.http.post('http://192.180.2.159:4040/api/v1/RegisterUser',this.registrationForm.value)
+  this.authService.changePassword(this.changePasswordForm.value).subscribe(
+    (res)=>{
+    console.log(res);
+    this.changePasswordForm.reset();
+    // this.authService.storeToken(res.data );
+    this.router.navigate(['home']);
+    }
+  );
+  
+}
+checkPasswords(pw: string, cpw: string) {
+  this.isConfirmPasswordDirty = true;
+  if (pw == cpw) {
+    this.passwordsMatching = true;
+    this.confirmPasswordClass = 'form-control is-valid';
+  } else {
+    this.passwordsMatching = false;
+    this.confirmPasswordClass = 'form-control is-invalid';
+  }
 }
 }
