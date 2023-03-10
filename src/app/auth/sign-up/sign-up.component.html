@@ -54,9 +54,9 @@
     </div>
     <div class="form-group col-md-4">
       <label for="inputphone">Mobile Number</label>
-      <input type="number" class="form-control" id="inputphone" formControlName="phone"
+      <input type="text" class="form-control" id="inputphone" formControlName="phone"
         [ngClass]="{'is-invalid': controlName.phone.errors && (controlName.phone.touched || controlName.phone.dirty), 'is-valid':controlName.phone.valid}"
-        placeholder="Mobile Number" (keydown)="onKeyDown($event)" pattern="[0-9]*">
+        placeholder="Mobile Number" (keydown)="onKeyDown($event)" pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
       <div *ngIf="controlName.phone.invalid && showError "
         class="alert alert-danger">
         <div *ngIf="controlName.phone.errors?.['required']">
