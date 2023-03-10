@@ -56,14 +56,17 @@
       <label for="inputphone">Mobile Number</label>
       <input type="text" class="form-control" id="inputphone" formControlName="phone"
         [ngClass]="{'is-invalid': controlName.phone.errors && (controlName.phone.touched || controlName.phone.dirty), 'is-valid':controlName.phone.valid}"
-        placeholder="Mobile Number" (keydown)="onKeyDown($event)" pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+        placeholder="Mobile Number" pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
       <div *ngIf="controlName.phone.invalid && showError "
         class="alert alert-danger">
         <div *ngIf="controlName.phone.errors?.['required']">
-          phone Number is required.
+          Mobile Number is required.
         </div>
         <div *ngIf="controlName.phone.errors?.['minlength']">
-          phone Number must be 10 digit long.
+          Mobile Number must be 10 digit long.
+        </div>
+        <div *ngIf="controlName.phone.errors?.['pattern']">
+          Enter valid Mobile Number.
         </div>
       </div>
     </div>

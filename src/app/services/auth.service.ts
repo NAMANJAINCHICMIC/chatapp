@@ -117,13 +117,36 @@ export class AuthService {
   //   this.externalAuthService.signOut();
   // }
 
-  // logout(): Observable<any> {
-  //   return this.http.post(AUTH_API + 'signout', { }, httpOptions);
-  // }
+  logout(): Observable<any> {
+    return this.http.post(AUTH_API + 'api/v1/user/logout', { }, {
+      headers: new HttpHeaders({
+         'Content-Type': 'application/json',
+         'Authorization': "Bearer "+ localStorage.getItem('token')
+    
+    })
+    });
+  }
   signOut(){
-    localStorage.clear();
-    this.router.navigate(['/']);
-    this.externalAuthService.signOut();
+    this.logout().subscribe(
+      (res)=>{
+      console.log(res);
+      alert(res.message);
+      if (res.success){ 
+        this.externalAuthService.signOut();
+        localStorage.clear();
+        this.router.navigate(['/']);
+      }}
+    );
+    // localStorage.clear();
+    // this.router.navigate(['/']);
+    // this.externalAuthService.signOut();
+    // return this.http.post(AUTH_API + 'api/v1/user/logout', { }, {
+    //   headers: new HttpHeaders({
+    //      'Content-Type': 'application/json',
+    //      'Authorization': "Bearer "+ localStorage.getItem('token')
+    
+    // })
+    // });
   }
   storeToken(tokenValue:string){
     localStorage.setItem('token',tokenValue)

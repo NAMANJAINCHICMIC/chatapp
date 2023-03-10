@@ -36,7 +36,9 @@ export class SignUpComponent {
       firstName: new FormControl('', [Validators.required , Validators.minLength(3)]),
       lastName: new FormControl('', [Validators.required , Validators.minLength(3)]),
       email: new FormControl('', [Validators.required,Validators.email]),
-      phone: new FormControl('',[Validators.required , Validators.minLength(10), Validators.maxLength(12)]),
+      phone: new FormControl('',[Validators.required , Validators.minLength(10),Validators.pattern("^[6-9]\\d{9}$")]),
+      // phone: new FormControl('',[Validators.required , Validators.minLength(10), Validators.maxLength(15)]),
+      // password: new FormControl('',[Validators.required ,Validators.pattern("^[1-9]$|^[1-9][0-9]$|^(100)$")]),
       password: new FormControl('',[Validators.required , Validators.minLength(8),Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")]),
       dateOfBirth: new FormControl('', Validators.required ),
     }
@@ -89,12 +91,6 @@ validateDOB(e: Event){
   // console.log("dob" , this.validateDateOfbirth)
 
 }
-onKeyDown(event:Event) {
- if( ["e", "E", "+", "-"].includes((event.target as HTMLInputElement).value)){
 
-   event.preventDefault()
- }
-  // (event.target as HTMLInputElement).value
-    }
 
 }
