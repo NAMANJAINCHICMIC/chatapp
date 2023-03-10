@@ -56,7 +56,7 @@
       <label for="inputphone">Mobile Number</label>
       <input type="number" class="form-control" id="inputphone" formControlName="phone"
         [ngClass]="{'is-invalid': controlName.phone.errors && (controlName.phone.touched || controlName.phone.dirty), 'is-valid':controlName.phone.valid}"
-        placeholder="Mobile Number">
+        placeholder="Mobile Number" (keydown)="onKeyDown($event)" pattern="[0-9]*">
       <div *ngIf="controlName.phone.invalid && showError "
         class="alert alert-danger">
         <div *ngIf="controlName.phone.errors?.['required']">
@@ -72,15 +72,18 @@
   <div class="form-row align-self-center justify-content-center">
     <div class="form-group col-md-4">
       <label for="inputDate">Date Of Birth</label>
-      <input type="date" class="form-control" id="inputDate" formControlName="dateOfBirth"
-        [ngClass]="{'is-invalid': controlName.dateOfBirth.errors && (controlName.dateOfBirth.touched || controlName.dateOfBirth.dirty), 'is-valid':controlName.dateOfBirth.valid}"
+      <input type="date" class="form-control" id="inputDate" formControlName="dateOfBirth" (change)="validateDOB($event)" name="dateOfBirth"
+        [ngClass]="{'is-invalid': (controlName.dateOfBirth.errors || validateDateOfbirth) && (controlName.dateOfBirth.touched || controlName.dateOfBirth.dirty ), 'is-valid':controlName.dateOfBirth.valid && !validateDateOfbirth}"
         placeholder="Date Of Birth">
         <div *ngIf="controlName.dateOfBirth.invalid && showError "
         class="alert alert-danger">
       <div *ngIf="controlName.dateOfBirth.errors?.['required']">
         Date Of Birth is required.
       </div>
-      </div>
+    </div>
+    <div *ngIf="validateDateOfbirth" class="alert alert-danger">
+     Enter valid Date Of Birth.
+    </div>
 
     </div>
   </div>
@@ -90,7 +93,7 @@
       <!-- <i class="fa fa-eye" aria-hidden="true"></i> -->
       <div class="row">
         <input [type]="visible?'password':'text'" class="form-control col " id="inputPassword4"
-          formControlName="password"
+          formControlName="password" 
           [ngClass]="{'is-invalid': controlName.password.errors && (controlName.password.touched || controlName.password.dirty), 'is-valid':controlName.password.valid}"
           placeholder="Password">
         <span class="eyeicon col align-self-center justify-content-center"><i
@@ -102,9 +105,12 @@
       <div *ngIf="controlName.password.errors?.['required']">
         Password is required.
       </div>
-      <div *ngIf="controlName.password.errors?.['minlength']">
-        Password must be at least 8 characters long.
+      <div *ngIf="controlName.password.errors?.['pattern']">
+        Password must be at least eight characters, at least one uppercase letter, one lowercase letter, one number and one special character:
       </div>
+      <!-- <div *ngIf="controlName.password.errors?.['minlength']">
+        Password must be at least 8 characters long.
+      </div> -->
       </div>
     </div>
   </div>

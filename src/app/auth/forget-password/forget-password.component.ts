@@ -31,9 +31,13 @@ onSubmit(){
   this.authService.forgetPassword(email).subscribe(
     (res)=>{
     console.log(res);
+    alert(res.message);
+    if(res.success){
+
     this.forgetForm.reset();
-    // this.authService.storeToken(res.data );
+    this.authService.storeResetToken(res.data.token );
     this.router.navigate(['reset-password']);
+    }
     }
   );
   // this.authService.register(this.registrationForm.value).subscribe();

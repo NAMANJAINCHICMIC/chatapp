@@ -6,6 +6,7 @@ import { ResetPasswordComponent } from './auth/reset-password/reset-password.com
 import { SignInComponent } from './auth/sign-in/sign-in.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { VerifyUserComponent } from './auth/verify-user/verify-user.component';
+
 import { AuthGuard } from './guards/auth.guard';
 // import { HomeComponent } from './home/home.component';
 import { PageNotFindComponent } from './page-not-find/page-not-find.component';
@@ -19,12 +20,14 @@ const routes: Routes = [
     {
         path: 'sign-in',
         component: SignInComponent,
-        canDeactivate:[AuthGuard]
+        canActivate:[AuthGuard]
+        // canActivate:[AuthTwoGuard]
     },
     {
         path: 'sign-up',
         component: SignUpComponent,
-        canDeactivate:[AuthGuard]
+        canActivate:[AuthGuard]
+        // canActivate:[AuthTwoGuard]
     },
     {path:'reset-password',component: ResetPasswordComponent},
     {path:'verify-user',component: VerifyUserComponent},

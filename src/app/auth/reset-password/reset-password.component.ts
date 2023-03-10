@@ -20,8 +20,8 @@ export class ResetPasswordComponent {
   constructor(private router: Router,private authService: AuthService ){}
   resetForm = new FormGroup(
     { otp:new FormControl('', [Validators.required]),
-      password: new FormControl('',[Validators.required , Validators.minLength(8)]),
-      confirmPassword: new FormControl('',[Validators.required , Validators.minLength(8)]),
+      password: new FormControl('',[Validators.required , Validators.minLength(8),Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")]),
+      confirmPassword: new FormControl('',[Validators.required , Validators.minLength(8),Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")]),
      
     }
   )
@@ -49,11 +49,14 @@ onSubmit(){
   this.authService.resetPassword(otp ,password).subscribe(
     (res)=>{
     console.log(res);
+    alert(res.message);
+    if (res.success){ 
     this.resetForm.reset();
-    // this.authService.storeToken(res.data );
+    localStorage.removeItem('resetToken');
+    this.authService.storeToken(res.data.token);
     
     this.router.navigate(['home']);
-    }
+    }}
   );
   // this.authService.register(this.registrationForm.value).subscribe();
 } else {

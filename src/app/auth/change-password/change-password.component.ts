@@ -20,8 +20,8 @@ export class ChangePasswordComponent {
   changePasswordForm = new FormGroup(
     {
       oldPassword: new FormControl('', Validators.required),
-      password: new FormControl('',[Validators.required , Validators.minLength(8)]),
-      confirmPassword: new FormControl('',[Validators.required , Validators.minLength(8)]),
+      password: new FormControl('',[Validators.required , Validators.minLength(8),Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")]),
+      confirmPassword: new FormControl('',[Validators.required , Validators.minLength(8),Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")]),
      
     }
   )
@@ -50,9 +50,13 @@ onSubmit(){
   this.authService.changePassword(oldPassword,password).subscribe(
     (res)=>{
     console.log(res);
+    alert(res.message);
+    if(res.success){
+
     this.changePasswordForm.reset();
     // this.authService.storeToken(res.data );
     this.router.navigate(['home']);
+    }
     }
   );
 } else {

@@ -17,6 +17,7 @@ import {HttpClient, HttpClientModule}from '@angular/common/http';
 export class SignUpComponent {
   visible=true;
   showError= false;
+  validateDateOfbirth = false
   viewPassword(){
     this.visible = !this.visible;
   }
@@ -36,8 +37,8 @@ export class SignUpComponent {
       lastName: new FormControl('', [Validators.required , Validators.minLength(3)]),
       email: new FormControl('', [Validators.required,Validators.email]),
       phone: new FormControl('',[Validators.required , Validators.minLength(10), Validators.maxLength(12)]),
-      password: new FormControl('',[Validators.required , Validators.minLength(8)]),
-      dateOfBirth: new FormControl('', Validators.required),
+      password: new FormControl('',[Validators.required , Validators.minLength(8),Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")]),
+      dateOfBirth: new FormControl('', Validators.required ),
     }
   )
 get controlName(){
@@ -47,7 +48,7 @@ onClick(){
   this.router.navigateByUrl("/sign-in");
 }
 onSubmit(){
-  if (this.registrationForm.valid) {
+  if (this.registrationForm.valid && !this.validateDateOfbirth) {
     console.log('form submitted');
 
   const { firstName , lastName, email, password,phone,dateOfBirth} = this.registrationForm.value
@@ -56,9 +57,13 @@ onSubmit(){
   this.authService.register(firstName, lastName, email, password,phone,dateOfBirth).subscribe(
     (res)=>{
       console.log(res)
-      this.registrationForm.reset();
-      this.authService.storeToken(res.data );
-      this.router.navigate(['home']);
+      alert(res.message);
+      if(res.success){
+
+        this.registrationForm.reset();
+        this.authService.storeToken(res.data.token);
+        this.router.navigate(['home']);
+      }
     }
   );
   // this.authService.register(this.registrationForm.value).subscribe();
@@ -68,6 +73,28 @@ onSubmit(){
   this.showError = true;
 }
 }
+validateDOB(e: Event){
+ 
+  const year = new Date((e.target as HTMLInputElement).value).getFullYear();
+  const today = new Date().getFullYear();
 
+  if( (today-year) < 12 || (today -year)>100){
+    //Code Something
+    this.validateDateOfbirth= true
+    
+    // console.log("dob" , this.validateDateOfbirth)
+  }else{
+    this.validateDateOfbirth = false
+  }
+  // console.log("dob" , this.validateDateOfbirth)
+
+}
+onKeyDown(event:Event) {
+ if( ["e", "E", "+", "-"].includes((event.target as HTMLInputElement).value)){
+
+   event.preventDefault()
+ }
+  // (event.target as HTMLInputElement).value
+    }
 
 }

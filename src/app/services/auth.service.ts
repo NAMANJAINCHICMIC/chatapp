@@ -86,7 +86,7 @@ export class AuthService {
       {
         headers: new HttpHeaders({
            'Content-Type': 'application/json',
-           'Authorization': "Bearer "+ localStorage.getItem('token')
+           'Authorization': "Bearer "+ localStorage.getItem('resetToken')
       
       })
       }
@@ -131,6 +131,14 @@ export class AuthService {
 
   getToken(){
     return localStorage.getItem('token')
+  }
+
+  storeResetToken(tokenValue:string){
+    localStorage.setItem('resetToken',tokenValue)
+  }
+
+  getResetToken(){
+    return localStorage.getItem('resetToken')
   }
 
   isLoggedIn():boolean{
