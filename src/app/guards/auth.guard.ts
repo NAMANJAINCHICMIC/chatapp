@@ -13,7 +13,7 @@ export class AuthGuard implements CanActivate {
     const { routeConfig } = route;
     const { path } = routeConfig as Route;
 
-    if (path?.includes('home') && !this.authService.isLoggedIn()) {
+    if ((path?.includes('home') || path?.includes('change-password'))&& !this.authService.isLoggedIn()) {
 
       return true;
     }
@@ -29,6 +29,10 @@ export class AuthGuard implements CanActivate {
       return true;
 
     }
+    // if (path?.includes('change-password') && !this.authService.isLoggedIn()) {
+
+    //   return true;
+    // }
 
 
     this.router.navigate(['/']);

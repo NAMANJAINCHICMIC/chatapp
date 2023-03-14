@@ -8,9 +8,12 @@ import { AuthService } from './services/auth.service';
 import {  SocialAuthServiceConfig, FacebookLoginProvider } from '@abacritt/angularx-social-login';
 import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
 
+
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -19,6 +22,7 @@ import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
     // SocialLoginModule,
     
   ],
+
 
   providers: [ HttpClientModule, AuthService, 
     {

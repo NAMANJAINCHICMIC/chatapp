@@ -113,7 +113,7 @@ export class SignInComponent implements OnInit {
 
             this.loginForm.reset();
             this.authService.storeToken(res.data.token);
-            this.router.navigate(['home']);
+            this.router.navigate(['home'], { state: {email: res.data.email } });
           }
         }
       );

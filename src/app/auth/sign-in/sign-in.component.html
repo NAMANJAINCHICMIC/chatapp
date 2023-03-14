@@ -1,21 +1,27 @@
-
-<form [formGroup]="loginForm" class="form-horizontal m-4" (ngSubmit)="onSubmit()">
-  <div class="form-group col-sm-8">
+<div class="mask d-flex align-items-center h-100 gradient-custom-3">
+  <div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+        <div class="card" style="border-radius: 15px;">
+          <div class="card-body p-5">
+            <h2 class="text-uppercase text-center mb-5">Login account</h2>
+<form [formGroup]="loginForm" class="" (ngSubmit)="onSubmit()">
+  <div class="form-group form-outline mb-4">
     <label for="exampleInputEmail1">Email address</label>
     <input type="email" required
       [ngClass]="{'is-invalid': controlName.email.errors && (controlName.email.touched || controlName.email.dirty), 'is-valid':controlName.email.valid}"
-      formControlName="email" class="form-control " id="exampleInputEmail1" aria-describedby="emailHelp"
+      formControlName="email" class="form-control form-control-lg " id="exampleInputEmail1" aria-describedby="emailHelp"
       placeholder="Enter email">
     <div class="alert alert-danger" *ngIf="controlName.email.errors?.['required'] && showError ">
       Email is required.
     </div>
 
   </div>
-  <div class="form-group col-sm-12 ">
+  <div class="form-group form-outline mb-4">
     <label for="exampleInputPassword1">Password</label>
     <!-- <input type="password" class="form-control col-md-4" id="exampleInputPassword1" formControlName="password"  [ngClass]="{'is-invalid': controlName.password.errors && (controlName.password.touched || controlName.password.dirty), 'is-valid':controlName.password.valid}" placeholder="Password"> -->
-    <div class="row row-sm-12">
-      <input [type]="visible?'password':'text'" class="form-control col " id="inputPassword4" formControlName="password"
+    <div class="d-flex ">
+      <input [type]="visible?'password':'text'" class="form-control col   form-control-lg" id="inputPassword4" formControlName="password"
         [ngClass]="{'is-invalid': controlName.password.errors && (controlName.password.touched || controlName.password.dirty), 'is-valid':controlName.password.valid}"
         placeholder="Password" >
       <span class="eyeicon col align-self-center justify-content-center"><i
@@ -93,3 +99,10 @@ data-scope="<comma separated list of permissions, e.g. public_profile, email>"
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
 </script> -->
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>

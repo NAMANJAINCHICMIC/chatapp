@@ -19,7 +19,7 @@ export class ResetPasswordComponent {
 
   constructor(private router: Router,private authService: AuthService ){}
   resetForm = new FormGroup(
-    { otp:new FormControl('', [Validators.required]),
+    { otp:new FormControl('', [Validators.required , Validators.minLength(6),Validators.maxLength(6),]),
       password: new FormControl('',[Validators.required , Validators.minLength(8),Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")]),
       confirmPassword: new FormControl('',[Validators.required , Validators.minLength(8),Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")]),
      
