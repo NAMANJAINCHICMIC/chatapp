@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { APP_INITIALIZER, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
 import {  Router, RouterModule } from '@angular/router';
@@ -10,7 +10,15 @@ import { ChatService } from '../services/chat.service';
 @Component({
   selector: 'app-home',
   standalone: true,
-
+  providers: [
+    ChatService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (chatService: ChatService) => () => chatService.initiateSignalrConnection(),
+      deps: [ChatService],
+      multi: true,
+    }
+  ],
   imports: [CommonModule,RouterModule,ChatBodyComponent,ChatListComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
@@ -35,7 +43,7 @@ changePassword()
 
 }
 ngOnInit(): void {
-  this.chatService.startConnection();
+  this.chatService.initiateSignalrConnection();
   
   setTimeout(()=>{
     this.chatService.sendMessageListener();
