@@ -32,6 +32,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         }
         chatService.senderEmail = state.email
         // console.log(chatService.senderEmail)
+
+        this.chatService.initiateSignalrConnection();
   }
 signOut(){
 this.authService.signOut();
@@ -43,12 +45,12 @@ changePassword()
 
 }
 ngOnInit(): void {
-  this.chatService.initiateSignalrConnection();
-  
-  setTimeout(()=>{
-    this.chatService.sendMessageListener();
-    this.chatService.sendMessage();
-  },5000)
+  // this.chatService.initiateSignalrConnection();
+  console.log();
+  // setTimeout(()=>{
+  //   this.chatService.sendMessageListener();
+  //   this.chatService.sendMessage(to: string, content: string);
+  // },5000)
 }
 title = 'chat_App';
 

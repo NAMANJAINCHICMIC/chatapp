@@ -13,6 +13,8 @@ import { ChatService } from 'src/app/services/chat.service';
 export class ChatListComponent implements OnInit {
   private searchSubscription?: Subscription;
   userlist = false;
+  connectedUsers : any
+  searchQuery = '';
   private readonly searchSubject = new Subject<string | undefined>();
   searchResults: Array<any>=[];
   constructor(private chatService: ChatService) { }
@@ -40,11 +42,14 @@ export class ChatListComponent implements OnInit {
           // this.showError = true;
         }
       });
+this.connectedUsers = this.chatService.getChat()
+console.log(this.connectedUsers)
+
   }
 
   onSearchQueryInput(event: Event): void {
-    const searchQuery = (event.target as HTMLInputElement).value;
-    this.searchSubject.next(searchQuery?.trim());
+     this.searchQuery = (event.target as HTMLInputElement).value;
+    this.searchSubject.next(this.searchQuery?.trim());
   }
 
   public ngOnDestroy(): void {
@@ -55,8 +60,11 @@ export class ChatListComponent implements OnInit {
     console.log(this.searchResults)
   }
   selectUser(email:string){
-    console.log(email)
-    console.log("user selected")
-    this.chatService.sendMessageListener();
+    // console.log(email)
+    // console.log("user selected")
+    this.chatService.receiverEmail=email;
+    this.chatService.createChat();
+    this.searchSubscription?.unsubscribe();
+    this.searchQuery=''
   }
 }

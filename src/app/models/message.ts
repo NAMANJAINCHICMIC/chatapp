@@ -1,8 +1,8 @@
 export interface Message {
     // from: string;
     // to?: string;
-    Content: string;
-    SenderEmail :string;
-    ReceiverEmail:string;
-    DateTime:Date
+    content: string;
+    senderEmail :string;
+    receiverEmail:string;
+    dateTime:Date
 }

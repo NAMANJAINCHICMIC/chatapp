@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import * as signalR from '@microsoft/signalr';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Message } from '../models/message';
 import { UserList } from '../models/userList';
 import { InputMessage } from '../models/input-message';
@@ -26,24 +26,31 @@ export class ChatService {
   myName = '';
   receiverEmail = '';
   senderEmail = '';
-  // private hubConnection?: HubConnection;
-  onlineUsers: Array<object> = [];
+ 
+  onlineUsers: string[] = [];
   messages: Message[] = [];
   privateMessages: Message[] = [];
   privateMesageInitiated = false;
 
+  hubHelloMessage: BehaviorSubject<any>;
 
-  // public hubConnection: signalR.HubConnection | any;
-  // public startConnection = (token:string) => {
-  //   this.hubConnection = new signalR.HubConnectionBuilder().withUrl(AUTH_API+"hubs/chat", {skipNegotiation: true, transport: signalR.HttpTransportType.WebSockets, accessTokenFactory: () => token}).withAutomaticReconnect().build();
-  //   this.hubConnection.start().then(() => console.log("connection started")).catch((err:any) => {
-  //     console.log("Error while starting connection", err)
-  //     // setTimeout(() => {
-  //     //   this.startConnection(token);
-  //     // }, 2000)
-  //   });
-  // }
-  private hubConnection: signalR.HubConnection | any;
+  public hubConnection: signalR.HubConnection | any;
+
+  constructor(private http: HttpClient,) {
+    this.hubHelloMessage = new BehaviorSubject<any>('');
+    const tokenValue = localStorage.getItem('token');
+    if (tokenValue) {
+
+      httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer " + tokenValue
+
+        })
+      };
+    }
+  }
+
   stopChatConnection() {
     this.hubConnection?.stop().catch((error: any) => console.log(error));
   }
@@ -68,17 +75,7 @@ export class ChatService {
   }
   
 
-  // public startConnection() {
-  //   this.hubConnection = new HubConnectionBuilder().withUrl(AUTH_API + "hubs/chat", {
-  //     skipNegotiation: true,
-  //     transport: signalR.HttpTransportType.WebSockets
-  //   }).withAutomaticReconnect().build()
-  //   this.hubConnection.start().then(() => {
-  //     console.log("Connection started ")
-  //   }).catch((error: any) => {
-  //     console.log(" Error While starting connection " + error);
-  //   });
-  // }
+
 
   // receiving commands from chathub
   //   this.hubConnection.on('UserConnected', () => {
@@ -100,15 +97,13 @@ export class ChatService {
   //       console.log('error of send');
   //     });
 
-  sendMessage() {
+  sendMessage(to: string, Content?: string) {
 
-    // this.hubConnection?.invoke("SendMessage", 'hi').catch((error: any) => {
-    //   console.log('error of send');
-    // });
+  
     const inputmsg: InputMessage = {
 
-      ReceiverEmail : "rakesh.kumar23@chicmic.co.in",
-      Content : "helooo bro"
+      ReceiverEmail : to,
+      Content 
 
     };
     this.hubConnection?.send("SendMessage",inputmsg).catch((error:any)=>{
@@ -116,38 +111,87 @@ export class ChatService {
     });
     console.log(inputmsg)
   }
+//   CreateChat(string ToMail)
+
+// GetChatMessages(string OtherMail, int pageNumber)
+
+// .invoke functions
+
+
+// List<OutputChatMappings> GetChats()
+createChat(){
+  this.hubConnection?.send("CreateChat",this.receiverEmail).catch((error:any)=>{
+    console.log('error of send');
+  });
+  console.log("create chat with ", this.receiverEmail)
+}
+getChatMessages(){
+  const message =  this.hubConnection?.invoke("GetChatMessages",this.receiverEmail,1).catch((error:any)=>{
+    console.log('error of send');
+  });
+  // this.hubHelloMessage.next(message);
+  return message
+}
+getChat(){
+  return this.hubConnection?.invoke("GetChat").catch((error:any)=>{
+    console.log('error of send');
+  });
+}
+
 
   sendMessageListener() {
-    // this.hubConnection?.on("recieveMessage",(someText :string)=>{
-    //     console.log(someText);
-    // })
+
     this.hubConnection.on('UserConnected', () => {
       this.addUserConnectionId();
     });
  this.hubConnection?.on('ReceivedMessage', (someText: any) => {
       //this.messages = [...this.messages, newMessage];
-      console.log("recevied",someText);
+      console.log("recevied Message",someText);
     })
     this.hubConnection.on('UpdateOnlineUsers', (onlineUsers:any) => {
       this.onlineUsers = [...onlineUsers];
+      console.log("onlineUsers",onlineUsers);
     });
+    this.hubConnection?.on('ChatCreated', (someText: any) => {
 
+      console.log("ChatCreated",someText);
+    })
+    this.hubConnection?.on('RecievedChatMessages', (someText: Array<object>) => {
+ 
+      console.log("RecievedChatMessages",someText);
+      this.hubHelloMessage.next(someText);
+    })
+    this.hubConnection?.on('ReceivedChats', (someText: any) => {
+ 
+      console.log("ReceivedChats",someText);
+    
+    })
+    
   }
+//   demo(){
+// //     ChatCreated  -- params - responsemodel
+
+// // RecievedChats  -- params - list of OutputChatMappings
+
+// // RecievedChatMessages  --params  --list of OutputMessages
+// this.hubConnection?.on('ReceivedChats', (someText: any) => {
+ 
+//   console.log("ReceivedChats",someText);
+// })
+// this.hubConnection?.on('ChatCreated', (someText: any) => {
+
+//   console.log("ChatCreated",someText);
+// })
+// this.hubConnection?.on('RecievedChatMessages', (someText: any) => {
+ 
+//   console.log("RecievedChatMessages",someText);
+//   this.hubHelloMessage.next(someText);
+// })
+
+//   }
 
 
-  constructor(private http: HttpClient,) {
-    const tokenValue = localStorage.getItem('token');
-    if (tokenValue) {
 
-      httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': "Bearer " + tokenValue
-
-        })
-      };
-    }
-  }
 
   searchUser(data: string | null | undefined): Observable<any> {
 
@@ -168,31 +212,5 @@ export class ChatService {
       .catch((error:any) => console.log(error));
   }
 
-
-
-  // stopChatConnection() {
-  //   this.hubConnection?.stop().catch((err:any)=> {console.log(err)});
-  // }
-
-  // Chathub method triggers comes here
-  // async addUserConnectionId() {
-  //   return this.hubConnection?.invoke('AddUserConnectionId', this.senderEmail)
-  //     .catch((err: any) => { console.log(err) });
-  // }
-
-  //   async sendMessage(content: string) {
-  //     const message: Message = {
-  //       from: this.myName,
-  //       content
-  //     };
-
-  //     return this.hubConnection?.invoke('ReceiveMessage', message)
-  //       .catch((err:any)=> {console.log(err)});
-  //   }
-  //   async GetChats(content: string) {
-  //     const userList: UserList = {
-  //       // from: this.myName,
-  //       // content
-  //     };
 
 }
