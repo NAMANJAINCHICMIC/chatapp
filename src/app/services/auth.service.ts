@@ -153,6 +153,10 @@ export class AuthService {
   storeToken(tokenValue:string){
     localStorage.setItem('token',tokenValue)
   }
+  storeEmail(emailValue:string){
+    localStorage.setItem('email',emailValue)
+  }
+
 
   getToken(){
     return localStorage.getItem('token')

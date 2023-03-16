@@ -54,7 +54,7 @@ onSubmit(){
     this.resetForm.reset();
     localStorage.removeItem('resetToken');
     this.authService.storeToken(res.data.token);
-    
+    this.authService.storeEmail(res.data.email);
     this.router.navigate(['home']);
     }}
   );

@@ -26,39 +26,68 @@ import { Subject, Subscription } from 'rxjs';
 })
 export class HomeComponent implements OnInit {
   userName = ""
+  userData :any
   tokenValue = localStorage.getItem('token');
   searchUserDataSubscription?: Subscription;
   searchUserDataSubject = new Subject<string | undefined>();
+
   constructor(private authService : AuthService , private router:Router, private chatService:ChatService){
     // console.log("token", this.tokenValue)
-    const curr =  this.router.getCurrentNavigation();
-        const state = curr?.extras.state as {
-         'email' : string
-        }
-        this.chatService.senderEmail = state.email
+    // const curr =  this.router.getCurrentNavigation();
+    //     const state = curr?.extras.state as {
+    //      'email' : string
+    //     }
+        this.chatService.senderEmail = localStorage.getItem('email')
         // console.log(chatService.senderEmail)
 
         this.chatService.initiateSignalrConnection(this.tokenValue);
+
+        console.log(this.chatService.senderEmail)
+        this.chatService.searchUserByEmail(this.chatService.senderEmail)
+     .subscribe(
+         (res:any) => {
+           console.log(res);
+           if (res.success) {
+              this.userName = res.firstName
+           } else {
+             console.log("show errors")          
+           }
+          
+         }
+         )
+         ;
   }
   ngOnInit(): void {
-    // throw new Error('Method not implemented.');
+    this.chatService.userData()
+    .subscribe(
+        (res:any) => {
+          console.log(res);
+          if (res.success) {
+             this.userName = res.firstName
+          } else {
+            console.log("show errors")          
+          }
+         
+        }
+        )
      console.log(this.chatService.senderEmail)
-    // const userData = this.chatService.searchUserByEmail(this.chatService.senderEmail)
-    // console.log("userIfo",userData)
-    // this.searchUserDataSubscription = userData
-    //   .subscribe((res) => {
-
-    //     console.log(res);
-    //     if (res.success) {
-    //        this.userName = res.firstName
-    //     } else {
-
-    //       console.log("show errors")
-    //       // this.showError = true;
-    //     }
-    //     // console.log("online",this.onlineConnectedUser)
-    //   });
-        console.log("online")
+     this.chatService.searchUserByEmail(this.chatService.senderEmail)
+  .subscribe(
+      (res:any) => {
+        console.log(this.chatService.senderEmail)
+        console.log(res);
+        if (res.success) {
+          console.log("success") 
+           this.userName = res.firstName
+        } else {
+          console.log("show errors")          
+        }
+       
+      }
+      )
+  //     ;
+        // console.log(this.searchUserDataSubscription)
+        console.log(this.userName)
   }
 signOut(){
 this.authService.signOut();

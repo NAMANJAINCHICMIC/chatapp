@@ -64,7 +64,8 @@ onSubmit(){
 
         this.registrationForm.reset();
         this.authService.storeToken(res.data.token);
-        this.router.navigate(['home'], { state: {email: res.data.email } });
+        this.authService.storeEmail(res.data.email);
+        this.router.navigate(['home']);
       }
     }
   );

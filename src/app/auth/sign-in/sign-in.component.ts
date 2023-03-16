@@ -65,6 +65,7 @@ export class SignInComponent implements OnInit {
           console.log(authToken);
         })
         this.authService.storeToken(user.idToken);
+        this.authService.storeEmail(user.email);
         this.router.navigate(['home']);
       }
       this.user = user;
@@ -113,7 +114,8 @@ export class SignInComponent implements OnInit {
 
             this.loginForm.reset();
             this.authService.storeToken(res.data.token);
-            this.router.navigate(['home'], { state: {email: res.data.email } });
+            this.authService.storeEmail(res.data.email);
+            this.router.navigate(['home']);
           }
         }
       );

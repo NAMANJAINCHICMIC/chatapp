@@ -26,7 +26,7 @@ let httpOptions = {
 export class ChatService {
   myName = '';
   receiverEmail = '';
-  senderEmail = '';
+  senderEmail ?: string | null;
   tokenValue = localStorage.getItem('token');
   onlineUsers: Array<any> = [];
   messages: Message[] = [];
@@ -50,6 +50,7 @@ export class ChatService {
         })
       };
     }
+    
   }
 
 //   private hubConnection : signalR.HubConnection | any;
@@ -175,20 +176,34 @@ export class ChatService {
       }
     );
   }
-  // searchUserByEmail(data: string | null | undefined): Observable<any> {
+  userData(): Observable<any> {
 
-  //   return this.http.get(
-  //     AUTH_API + 'api/v1/users/get' + '?Email=' + data,
+    return this.http.get(
+      AUTH_API + 'api/v1/users/get' ,
 
-  //     httpOptions = {
-  //       headers: new HttpHeaders({
-  //         'Content-Type': 'application/json',
-  //         'Authorization': "Bearer " + localStorage.getItem('token')
+      httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer " + localStorage.getItem('token')
 
-  //       })
-  //     }
-  //   );
-  // }
+        })
+      }
+    );
+  }
+  searchUserByEmail(data: string | null | undefined): Observable<any> {
+
+    return this.http.get(
+      AUTH_API + 'api/v1/users/get' + '?Email=' + data,
+
+      httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer " + localStorage.getItem('token')
+
+        })
+      }
+    );
+  }
   
   async addUserConnectionId() {
     return this.hubConnection?.send('AddUserConnectionId', this.senderEmail)
