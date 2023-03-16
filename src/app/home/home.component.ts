@@ -6,6 +6,7 @@ import { ChatListComponent } from '../components/chat-list/chat-list.component';
 
 import { ChatBodyComponent } from '../components/chat-body/chat-body.component';
 import { ChatService } from '../services/chat.service';
+import { Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,7 @@ import { ChatService } from '../services/chat.service';
     ChatService,
     {
       provide: APP_INITIALIZER,
-      useFactory: (chatService: ChatService) => () => chatService.initiateSignalrConnection(),
+      useFactory: (chatService: ChatService) => () => chatService.initiateSignalrConnection(chatService.tokenValue),
       deps: [ChatService],
       multi: true,
     }
@@ -23,17 +24,40 @@ import { ChatService } from '../services/chat.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit, OnDestroy {
-
+export class HomeComponent implements OnInit {
+  userName = ""
+  tokenValue = localStorage.getItem('token');
+  searchUserDataSubscription?: Subscription;
+  searchUserDataSubject = new Subject<string | undefined>();
   constructor(private authService : AuthService , private router:Router, private chatService:ChatService){
+    // console.log("token", this.tokenValue)
     const curr =  this.router.getCurrentNavigation();
         const state = curr?.extras.state as {
          'email' : string
         }
         chatService.senderEmail = state.email
-        // console.log(chatService.senderEmail)
+        console.log(chatService.senderEmail)
 
-        this.chatService.initiateSignalrConnection();
+        this.chatService.initiateSignalrConnection(this.tokenValue);
+  }
+  ngOnInit(): void {
+    // throw new Error('Method not implemented.');
+    // const userData = this.chatService.searchUserByEmail(this.chatService.senderEmail)
+    // console.log("userIfo",userData)
+    // this.searchUserDataSubscription = userData
+    //   .subscribe((res) => {
+
+    //     console.log(res);
+    //     if (res.success) {
+    //        this.userName = res.firstName
+    //     } else {
+
+    //       console.log("show errors")
+    //       // this.showError = true;
+    //     }
+    //     // console.log("online",this.onlineConnectedUser)
+    //   });
+        console.log("online")
   }
 signOut(){
 this.authService.signOut();
@@ -44,18 +68,7 @@ changePassword()
   this.router.navigate(['change-password']);
 
 }
-ngOnInit(): void {
-  // this.chatService.initiateSignalrConnection();
-  console.log();
-  // setTimeout(()=>{
-  //   this.chatService.sendMessageListener();
-  //   this.chatService.sendMessage(to: string, content: string);
-  // },5000)
-}
+
 title = 'chat_App';
 
-ngOnDestroy(): void {
-  // this.chatService._hubConnection?.off("recieveMessage")
-  console.log();
-}
 }

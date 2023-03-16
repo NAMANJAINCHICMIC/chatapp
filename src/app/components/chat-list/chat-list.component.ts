@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { debounceTime, distinctUntilChanged, Subject, Subscription, switchMap } from 'rxjs';
 import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
   selector: 'app-chat-list',
+  changeDetection: ChangeDetectionStrategy.Default,
   standalone: true,
   imports: [CommonModule],
   templateUrl: './chat-list.component.html',
@@ -17,7 +18,8 @@ export class ChatListComponent implements OnInit {
   searchQuery = '';
   private readonly searchSubject = new Subject<string | undefined>();
   searchResults: Array<any>=[];
-  constructor(private chatService: ChatService) { }
+  onlineConnectedUser = this.chatService.onlineUsers
+  constructor(public chatService: ChatService) { }
   public ngOnInit(): void {
     this.searchSubscription = this.searchSubject
       .pipe(
@@ -41,6 +43,7 @@ export class ChatListComponent implements OnInit {
           console.log("show errors")
           // this.showError = true;
         }
+        console.log("online",this.onlineConnectedUser)
       });
 this.connectedUsers = this.chatService.getChat()
 console.log(this.connectedUsers)
@@ -64,7 +67,8 @@ console.log(this.connectedUsers)
     // console.log("user selected")
     this.chatService.receiverEmail=email;
     this.chatService.createChat();
-    this.searchSubscription?.unsubscribe();
-    this.searchQuery=''
+    // this.searchSubscription?.unsubscribe();
+    // this.searchQuery=''
+    this.searchResults.length = 0
   }
 }

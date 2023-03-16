@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Message } from 'src/app/models/message';
 import { ChatService } from 'src/app/services/chat.service';
+import { ChangeDetectionStrategy } from "@angular/core";
 
 @Component({
   selector: 'app-chat-body',
+  changeDetection: ChangeDetectionStrategy.Default,
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './chat-body.component.html',
@@ -19,14 +21,19 @@ export class ChatBodyComponent {
   waste :any
   
  
-constructor(public chatService: ChatService){
-  // this.hubHelloMessage = '';
+constructor(public chatService: ChatService,private cdref: ChangeDetectorRef){
+ 
   this.waste = chatService.getChatMessages();
   console.log(this.waste)
 
   this.chatService.hubHelloMessage.subscribe((hubHelloMessage: Message) => {
     this.chatMessagedetail = hubHelloMessage;
   });
+}
+ngAfterContentChecked() {
+  // this.sampleViewModel.DataContext = this.DataContext;
+  // this.sampleViewModel.Position = this.Position;
+  this.cdref.detectChanges();
 }
 ngOnInit(): void {
   this.chatService.hubHelloMessage.subscribe((hubHelloMessage: any) => {

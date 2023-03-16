@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { SocialAuthService, SocialUser } from "@abacritt/angularx-social-login";
 import { GoogleLoginProvider } from "@abacritt/angularx-social-login";
 import { Token } from '@angular/compiler';
+import { ChatService } from './chat.service';
 
 
 // const AUTH_API ='http://192.180.2.159:4040/'
@@ -31,7 +32,7 @@ export class AuthService {
 // public authChanged = this.authChangeSub.asObservable();
 // public extAuthChanged = this.extAuthChangeSub.asObservable();
 
-  constructor(private http: HttpClient , private router: Router, private externalAuthService: SocialAuthService) { 
+  constructor(private http: HttpClient , private router: Router, private externalAuthService: SocialAuthService , private chatService: ChatService) { 
     // this.externalAuthService.authState.subscribe((user) => {
     //   console.log(user)
     //   this.extAuthChangeSub.next(user);
@@ -133,6 +134,7 @@ export class AuthService {
       alert(res.message);
       if (res.success){ 
         this.externalAuthService.signOut();
+        this.chatService.stopChatConnection();
         localStorage.clear();
         this.router.navigate(['/']);
       }}
