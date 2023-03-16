@@ -26,6 +26,7 @@ let httpOptions = {
 export class ChatService {
   myName = '';
   receiverEmail = '';
+  receiverName = '';
   senderEmail ?: string | null;
   tokenValue = localStorage.getItem('token');
   onlineUsers: Array<any> = [];
@@ -156,6 +157,14 @@ export class ChatService {
     this.hubConnection?.on('ReceivedChats', (someText: any) => {
 
       console.log("ReceivedChats", someText);
+
+    })
+    this.hubConnection?.on('refresh', (someText: any) => {
+
+      console.log("refresh", someText);
+      this.hubConnection?.send("OnlineUsers").catch((error: any) => {
+        console.log('error of OnlineUsers');
+      });
 
     })
 

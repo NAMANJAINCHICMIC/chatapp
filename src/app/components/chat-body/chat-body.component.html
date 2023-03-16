@@ -1,13 +1,13 @@
-
 <section style="background-color: #CDC4F9;">
-    <div class="container py-5">
-  
-      <div class="row">
-        <div class="col-md-12">
-  
-          <div class="card" id="chat3" style="border-radius: 15px;">
-            <div class="card-body">
-<!--   
+  <div class="container py-5">
+    <h3>{{chatService.receiverName}}</h3>
+    <div class="row">
+      <div class="col-md-12">
+
+        <div class="card" id="chat3" style="border-radius: 15px;">
+          <h4 *ngIf="(!chatService.receiverName)">Select user to chat</h4>
+          <div class="card-body" *ngIf="!(!chatService.receiverName)">
+            <!--   
               <div class="row">
                 <div class="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0">
   
@@ -16,54 +16,58 @@
   
                 <div class="col-md-6 col-lg-7 col-xl-8">
    -->
-                  <div class="pt-3 pe-3" data-mdb-perfect-scrollbar="true"
-                    style="position: relative; height: 400px" class="overflow-auto" #scrollMe id = "scrollMe" [scrollTop]="scrollMe.scrollHeight">
+            <div class="pt-3 pe-3" data-mdb-perfect-scrollbar="true" style="position: relative; height: 400px"
+              class="overflow-auto" #scrollMe id="scrollMe" [scrollTop]="scrollMe.scrollHeight">
 
-                    <!-- <h2>{{hubHelloMessage |json}}</h2> -->
-  <div *ngFor=" let message of chatMessagedetail" >
-  <!-- <div *ngFor=" let message of messages"> -->
-    <div>
+              <!-- <h2>{{hubHelloMessage |json}}</h2> -->
+              <div *ngFor=" let message of chatMessagedetail">
+                <!-- <div *ngFor=" let message of messages"> -->
+                <div>
 
-    <div class="d-flex flex-row justify-content-start" *ngIf="message.senderEmail !== this.chatService.senderEmail">
-      <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
-        alt="avatar 1" style="width: 45px; height: 100%;">
-      <div>
-        <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">{{message.content}}</p>
-        <p class="small ms-3 mb-3 rounded-3 text-muted float-end">{{message.dateTime | date:'medium'}}</p>
-      </div>
-    </div>
-    <div class="d-flex flex-row justify-content-end" *ngIf=" (message.senderEmail === this.chatService.senderEmail)">
-      <div>
-        <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">{{message.content}}</p>
-        <p class="small me-3 mb-3 rounded-3 text-muted">{{message.dateTime | date:'medium'}}</p>
-      </div>
-      <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-        alt="avatar 1" style="width: 45px; height: 100%;">
-    </div>
-  </div>
-</div>        
-  
-                  </div>
-  
-                  <div class="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2">
+                  <div class="d-flex flex-row justify-content-start"
+                    *ngIf="message.senderEmail !== this.chatService.senderEmail">
                     <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
-                      alt="avatar 3" style="width: 40px; height: 100%;">
-                    <input type="text" class="form-control form-control-lg" id="exampleFormControlInput2"
-                      placeholder="Type message" [(ngModel)]="content" name="content" required >
-                    <a class="ms-1 text-muted" href="#!"><i class="fas fa-paperclip " ></i></a>
-                    <a class="ms-3 text-muted" href="#!"><i class="fas fa-smile"></i></a>
-                    <a class="ms-3" href="#!"><i class="fas fa-paper-plane"></i></a>
-                    <button type="button" class="btn btn-light btn-primary btn-lg btn-rounded float-end" (click)="send()" >Send</button>
+                      alt="avatar 1" style="width: 45px; height: 100%;">
+                    <div>
+                      <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">{{message.content}}
+                      </p>
+                      <p class="small ms-3 mb-3 rounded-3 text-muted float-end">{{message.dateTime | date:'medium'}}</p>
+                    </div>
                   </div>
-  
+                  <div class="d-flex flex-row justify-content-end"
+                    *ngIf=" (message.senderEmail === this.chatService.senderEmail)">
+                    <div>
+                      <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">{{message.content}}</p>
+                      <p class="small me-3 mb-3 rounded-3 text-muted">{{message.dateTime | date:'medium'}}</p>
+                    </div>
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                      alt="avatar 1" style="width: 45px; height: 100%;">
+                  </div>
                 </div>
               </div>
-  
+
             </div>
+
+            <div class="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 3"
+                style="width: 40px; height: 100%;">
+              <input type="text" class="form-control form-control-lg" id="exampleFormControlInput2"
+                placeholder="Type message" [(ngModel)]="content" name="content" required>
+              <a class="ms-1 text-muted" href="#!"><i class="fas fa-paperclip "></i></a>
+              <a class="ms-3 text-muted" href="#!"><i class="fas fa-smile"></i></a>
+              <a class="ms-3" href="#!"><i class="fas fa-paper-plane"></i></a>
+              <button type="button" class="btn btn-light btn-primary btn-lg btn-rounded float-end"
+                (click)="send()">Send</button>
+            </div>
+
           </div>
-  
         </div>
-      <!-- </div>
+
+      </div>
+    </div>
+
+  </div>
+  <!-- </div>
   
     </div> -->
-  </section>
+</section>

@@ -42,49 +42,36 @@ export class HomeComponent implements OnInit {
 
         this.chatService.initiateSignalrConnection(this.tokenValue);
 
-        console.log(this.chatService.senderEmail)
-        this.chatService.searchUserByEmail(this.chatService.senderEmail)
-     .subscribe(
-         (res:any) => {
-           console.log(res);
-           if (res.success) {
-              this.userName = res.firstName
-           } else {
-             console.log("show errors")          
-           }
+    //     console.log(this.chatService.senderEmail)
+    //     this.chatService.searchUserByEmail(this.chatService.senderEmail)
+    //  .subscribe(
+    //      (res:any) => {
+    //        console.log(res);
+    //        if (res.success) {
+    //           this.userName = res.firstName
+    //        } else {
+    //          console.log("show errors")          
+    //        }
           
-         }
-         )
-         ;
+    //      }
+    //      )
+        //  ;
   }
   ngOnInit(): void {
-    this.chatService.userData()
-    .subscribe(
-        (res:any) => {
-          console.log(res);
-          if (res.success) {
-             this.userName = res.firstName
-          } else {
-            console.log("show errors")          
-          }
+    // this.chatService.userData()
+    // .subscribe(
+    //     (res:any) => {
+    //       console.log(res);
+    //       if (res.success) {
+    //          this.userName = res.firstName
+    //       } else {
+    //         console.log("show errors")          
+    //       }
          
-        }
-        )
-     console.log(this.chatService.senderEmail)
-     this.chatService.searchUserByEmail(this.chatService.senderEmail)
-  .subscribe(
-      (res:any) => {
-        console.log(this.chatService.senderEmail)
-        console.log(res);
-        if (res.success) {
-          console.log("success") 
-           this.userName = res.firstName
-        } else {
-          console.log("show errors")          
-        }
-       
-      }
-      )
+    //     }
+    //     )
+    //  console.log(this.chatService.senderEmail)
+ 
   //     ;
         // console.log(this.searchUserDataSubscription)
         console.log(this.userName)

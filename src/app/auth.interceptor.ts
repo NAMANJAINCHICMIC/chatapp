@@ -14,7 +14,7 @@ export class AuthInterceptors implements HttpInterceptor {
     })
     return next.handle(req)
     .pipe(catchError((error: HttpErrorResponse) => {
-      if (error.status === 401 || error.status === 404 ) {
+      if (error.status === 401 ) {
         // alert('401 Unathurized');
         console.log("Unathurized")
        localStorage.clear()

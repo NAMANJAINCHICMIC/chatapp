@@ -62,6 +62,7 @@ console.log(this.connectedUsers)
     this.searchResults
     console.log(this.searchResults)
   }
+  userName = ""
   selectUser(email:string){
     // console.log(email)
     // console.log("user selected")
@@ -70,5 +71,21 @@ console.log(this.connectedUsers)
     // this.searchSubscription?.unsubscribe();
     // this.searchQuery=''
     this.searchResults.length = 0
+    this.chatService.searchUserByEmail(this.chatService.receiverEmail)
+    .subscribe(
+        (res:any) => {
+          console.log(this.chatService.receiverEmail)
+          console.log(res);
+          if (res.success) {
+            console.log("success") 
+             this.chatService.receiverName = res.data[0].firstName
+             console.log(res.data[0].firstName)
+          } else {
+            console.log("show errors")          
+          }
+         
+        }
+        )
+        
   }
 }

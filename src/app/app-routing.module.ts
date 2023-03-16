@@ -1,5 +1,7 @@
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthInterceptors } from './auth.interceptor';
 import { ChangePasswordComponent } from './auth/change-password/change-password.component';
 import { ForgetPasswordComponent } from './auth/forget-password/forget-password.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
@@ -47,7 +49,11 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [
+    {provide:HTTP_INTERCEPTORS,useClass:AuthInterceptors,multi:true}
+  ]
+//   providers: [AuthInterceptors]
 })
 export class AppRoutingModule { 
 
