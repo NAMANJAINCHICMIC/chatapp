@@ -23,7 +23,7 @@ export class ChatBodyComponent {
  
 constructor(public chatService: ChatService,private cdref: ChangeDetectorRef){
  
-  this.waste = chatService.getChatMessages();
+  // this.waste = chatService.getChatMessages();
   console.log(this.waste)
 
   this.chatService.hubHelloMessage.subscribe((hubHelloMessage: Message) => {
@@ -53,7 +53,7 @@ send(){
   
   this.chatService.sendMessage(this.chatService.receiverEmail,this.content)
   this.content = ""
-  this.waste = this.chatService.getChatMessages();
-  console.log(this.waste)
+  this.chatService.getChatMessages();
+
 }
 }

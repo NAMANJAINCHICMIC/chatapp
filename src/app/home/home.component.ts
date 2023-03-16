@@ -35,13 +35,14 @@ export class HomeComponent implements OnInit {
         const state = curr?.extras.state as {
          'email' : string
         }
-        chatService.senderEmail = state.email
-        console.log(chatService.senderEmail)
+        this.chatService.senderEmail = state.email
+        // console.log(chatService.senderEmail)
 
         this.chatService.initiateSignalrConnection(this.tokenValue);
   }
   ngOnInit(): void {
     // throw new Error('Method not implemented.');
+     console.log(this.chatService.senderEmail)
     // const userData = this.chatService.searchUserByEmail(this.chatService.senderEmail)
     // console.log("userIfo",userData)
     // this.searchUserDataSubscription = userData
