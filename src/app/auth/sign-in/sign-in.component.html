@@ -24,7 +24,7 @@
       <input [type]="visible?'password':'text'" class="form-control col   form-control-lg" id="inputPassword4" formControlName="password"
         [ngClass]="{'is-invalid': controlName.password.errors && (controlName.password.touched || controlName.password.dirty), 'is-valid':controlName.password.valid}"
         placeholder="Password" >
-      <span class="eyeicon col align-self-center justify-content-center"><i
+      <span class="eyeicon col align-self-center justify-content-center "><i
           [ngClass]="visible?'fa fa-eye':'fa fa-eye-slash'" (click)="viewPassword()"></i>
       </span>
     </div>

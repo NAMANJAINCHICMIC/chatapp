@@ -53,9 +53,13 @@
                 style="width: 40px; height: 100%;">
               <input type="text" class="form-control form-control-lg" id="exampleFormControlInput2"
                 placeholder="Type message" [(ngModel)]="content" name="content" required>
-              <a class="ms-1 text-muted" href="#!"><i class="fas fa-paperclip "></i></a>
+              <!-- <a class="ms-1 text-muted" href="#!"><i class="fas fa-paperclip "></i></a>
               <a class="ms-3 text-muted" href="#!"><i class="fas fa-smile"></i></a>
-              <a class="ms-3" href="#!"><i class="fas fa-paper-plane"></i></a>
+              <a class="ms-3" href="#!"><i class="fas fa-paper-plane"></i></a> -->
+              <input hidden type="file" id="imgFile" #imgfile  accept="image/png, image/gif, image/jpeg" (change)="imageUpload()">
+              <button (click)="imgfile.click()">i</button>
+              <input hidden type="file" id="allFile" #allfile (change)="imageUpload()">
+              <button (click)="allfile.click()">f</button>
               <button type="button" class="btn btn-light btn-primary btn-lg btn-rounded float-end"
                 (click)="send()">Send</button>
             </div>

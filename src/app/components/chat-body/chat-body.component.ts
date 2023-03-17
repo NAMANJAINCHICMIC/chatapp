@@ -56,4 +56,7 @@ send(){
   this.chatService.getChatMessages();
 
 }
+imageUpload(){
+  console.log("image uplaod")
+}
 }
