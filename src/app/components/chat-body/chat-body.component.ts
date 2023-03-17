@@ -14,20 +14,28 @@ import { ChangeDetectionStrategy } from "@angular/core";
   styleUrls: ['./chat-body.component.css']
 })
 export class ChatBodyComponent {
-  hubHelloMessage =[];
+  uploadImage : Blob | string=''
+  uploadFile : Blob | string=''
+  // hubHelloMessage =[];
   chatMessagedetail :any;
   content?:string;
   fromEmail = this.chatService.senderEmail;
-  waste :any
-  
- 
+
+  imgTagSrc = ''
+imgPath='';
+filePath = '';
+  formData = new FormData()
 constructor(public chatService: ChatService,private cdref: ChangeDetectorRef){
  
   // this.waste = chatService.getChatMessages();
-  console.log(this.waste)
 
-  this.chatService.hubHelloMessage.subscribe((hubHelloMessage: Message) => {
-    this.chatMessagedetail = hubHelloMessage;
+
+  this.chatService.hubHelloMessage.subscribe((hubHelloMessage: Array<Message>) => {
+    console.log("constructor",hubHelloMessage)
+    if((chatService.receiverEmail=== hubHelloMessage[0].receiverEmail||chatService.receiverEmail=== hubHelloMessage[0].senderEmail )){
+
+      this.chatMessagedetail = hubHelloMessage;
+    }
   });
 }
 ngAfterContentChecked() {
@@ -37,7 +45,10 @@ ngAfterContentChecked() {
 }
 ngOnInit(): void {
   this.chatService.hubHelloMessage.subscribe((hubHelloMessage: any) => {
-    this.hubHelloMessage = hubHelloMessage;
+    console.log(hubHelloMessage)
+   
+    // this.hubHelloMessage = hubHelloMessage;
+   
   });
 
   // this.chatService.hubConnection
@@ -51,12 +62,44 @@ ngOnInit(): void {
 
 send(){
   
-  this.chatService.sendMessage(this.chatService.receiverEmail,this.content)
+  this.chatService.sendMessage(this.chatService.receiverEmail,1,this.content)
   this.content = ""
   this.chatService.getChatMessages();
 
 }
-imageUpload(){
-  console.log("image uplaod")
+imageUpload(event:any){
+  this.uploadImage = event.target.files[0]
+ this.formData = new FormData()
+  this.formData.append('file',this.uploadImage)
+
+ this.chatService.imageUpload(this.formData).subscribe((res:any)=>{
+  console.log(res);
+  this.imgPath = res.data
+  // console.log(this.imgPath);
+  this.chatService.sendMessage(this.chatService.receiverEmail,2,this.content,this.imgPath)
+  // this.chatService.sendImage(this.chatService.receiverEmail,this.filePath)
+},
+  error => {
+    console.log('Upload error:', error);
+  })
+
+}
+fileUpload(event :any){
+ 
+  this.uploadFile = event.target.files[0]
+  this.formData = new FormData()
+    this.formData.append('file',this.uploadFile)
+   
+  this.chatService.fileUpload(this.formData).subscribe((res:any)=>{
+    console.log("data",res);
+    this.filePath = res.data
+   
+    this.chatService.sendMessage(this.chatService.receiverEmail,3,this.content,this.filePath)
+
+  },
+    error => {
+      console.log('Upload error:', error);
+    })
+   
 }
 }

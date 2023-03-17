@@ -27,13 +27,13 @@ export class ChatService {
   myName = '';
   receiverEmail = '';
   receiverName = '';
-  senderEmail ?: string | null;
+  senderEmail?: string | null;
   tokenValue = localStorage.getItem('token');
   onlineUsers: Array<any> = [];
   messages: Message[] = [];
   privateMessages: Message[] = [];
   privateMesageInitiated = false;
-   
+
   hubHelloMessage: BehaviorSubject<any>;
 
   public hubConnection: signalR.HubConnection | any;
@@ -51,29 +51,29 @@ export class ChatService {
         })
       };
     }
-    
+
   }
 
-//   private hubConnection : signalR.HubConnection | any;
-//     public startConnection = (token:string) => {
-//       this.hubConnection = new signalR.HubConnectionBuilder().withUrl("https://localhost:7256/chart", {skipNegotiation: true, transport: signalR.HttpTransportType.WebSockets, accessTokenFactory: () => token}).withAutomaticReconnect().build();
-//       this.hubConnection.start().then(() => console.log("connection started")).catch((err:any) => {
-//         console.log("Error while starting connection", err)
-//         // setTimeout(() => {
-//         //   this.startConnection(token);
-//         // }, 2000)
-//       });
-//     }
-// ah implement krlia
+  //   private hubConnection : signalR.HubConnection | any;
+  //     public startConnection = (token:string) => {
+  //       this.hubConnection = new signalR.HubConnectionBuilder().withUrl("https://localhost:7256/chart", {skipNegotiation: true, transport: signalR.HttpTransportType.WebSockets, accessTokenFactory: () => token}).withAutomaticReconnect().build();
+  //       this.hubConnection.start().then(() => console.log("connection started")).catch((err:any) => {
+  //         console.log("Error while starting connection", err)
+  //         // setTimeout(() => {
+  //         //   this.startConnection(token);
+  //         // }, 2000)
+  //       });
+  //     }
+  // ah implement krlia
   stopChatConnection() {
     this.hubConnection?.stop().catch((error: any) => console.log(error));
   }
-  public async initiateSignalrConnection(token:any): Promise<void> {
+  public async initiateSignalrConnection(token: any): Promise<void> {
     try {
 
       this.hubConnection = new HubConnectionBuilder()
         .withUrl(AUTH_API + "chatHubs",
-          { skipNegotiation: true, transport: signalR.HttpTransportType.WebSockets , accessTokenFactory: () => token})
+          { skipNegotiation: true, transport: signalR.HttpTransportType.WebSockets, accessTokenFactory: () => token })
         .withAutomaticReconnect().build();
       await this.hubConnection.start();
       console.log("connection started");
@@ -92,14 +92,47 @@ export class ChatService {
 
 
 
-  sendMessage(to: string, Content?: string) {
+  sendMessage(to: string,Type:number, Content?: string,PathToFileAttachment?: string) {
 
 
     const inputmsg: InputMessage = {
 
       ReceiverEmail: to,
-      Content
+      Type: Type,
+      Content,
+      PathToFileAttachment: PathToFileAttachment
+    };
+    this.hubConnection?.send("SendMessage", inputmsg).catch((error: any) => {
+      console.log('error of sendMessage');
+    });
+    console.log(inputmsg)
+  }
 
+  sendImage(to: string, PathToFileAttachment: string) {
+
+
+    const inputmsg: InputMessage = {
+
+      ReceiverEmail: to,
+      Content: '',
+      Type: 2,
+      PathToFileAttachment: PathToFileAttachment
+    };
+    this.hubConnection?.send("SendMessage", inputmsg).catch((error: any) => {
+      console.log('error of sendMessage');
+    });
+    console.log(inputmsg)
+  }
+
+  sendAllFile(to: string, Content?: string) {
+
+
+    const inputmsg: InputMessage = {
+
+      ReceiverEmail: to,
+      Content,
+      Type: 3,
+      PathToFileAttachment: ""
     };
     this.hubConnection?.send("SendMessage", inputmsg).catch((error: any) => {
       console.log('error of sendMessage');
@@ -136,7 +169,7 @@ export class ChatService {
     this.hubConnection?.on('ReceivedMessage', (someText: any) => {
       //this.messages = [...this.messages, newMessage];
       console.log("recevied Message", someText);
-      if (someText.senderEmail === this.receiverEmail){
+      if (someText.senderEmail === this.receiverEmail) {
         this.getChatMessages()
       }
     })
@@ -188,7 +221,7 @@ export class ChatService {
   userData(): Observable<any> {
 
     return this.http.get(
-      AUTH_API + 'api/v1/users/get' ,
+      AUTH_API + 'api/v1/users/get',
 
       httpOptions = {
         headers: new HttpHeaders({
@@ -213,11 +246,28 @@ export class ChatService {
       }
     );
   }
-  
+
   async addUserConnectionId() {
     return this.hubConnection?.send('AddUserConnectionId', this.senderEmail)
-      .catch((error: any) => console.log("addUserConnectionId show erorr",error));
+      .catch((error: any) => console.log("addUserConnectionId show erorr", error));
   }
+  fileUpload(file: FormData): Observable<any> {
 
+    return this.http.post(
+      AUTH_API + 'api/v1/uploadFile' + '?type=3', file,
+
+    );
+  }
+  imageUpload(file: any): Observable<any> {
+
+    const params = {
+      type: 2,
+
+    }
+    return this.http.post(
+
+      AUTH_API + 'api/v1/uploadFile', file, { params: params }
+    );
+  }
 
 }

@@ -22,7 +22,7 @@
               <!-- <h2>{{hubHelloMessage |json}}</h2> -->
               <div *ngFor=" let message of chatMessagedetail">
                 <!-- <div *ngFor=" let message of messages"> -->
-                <div>
+                <div *ngIf="message.type ===1 && !(message.content==='')">
 
                   <div class="d-flex flex-row justify-content-start"
                     *ngIf="message.senderEmail !== this.chatService.senderEmail">
@@ -47,20 +47,20 @@
               </div>
 
             </div>
-
+        
             <div class="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2">
               <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 3"
                 style="width: 40px; height: 100%;">
               <input type="text" class="form-control form-control-lg" id="exampleFormControlInput2"
-                placeholder="Type message" [(ngModel)]="content" name="content" required>
+                placeholder="Type message" [(ngModel)]="content" name="content" required (submit)="sendButton.click()">
               <!-- <a class="ms-1 text-muted" href="#!"><i class="fas fa-paperclip "></i></a>
               <a class="ms-3 text-muted" href="#!"><i class="fas fa-smile"></i></a>
               <a class="ms-3" href="#!"><i class="fas fa-paper-plane"></i></a> -->
-              <input hidden type="file" id="imgFile" #imgfile  accept="image/png, image/gif, image/jpeg" (change)="imageUpload()">
+              <input hidden type="file" id="imgFile" #imgfile  accept="image/png, image/gif, image/jpeg" (change)="imageUpload($event)">
               <button (click)="imgfile.click()">i</button>
-              <input hidden type="file" id="allFile" #allfile (change)="imageUpload()">
+              <input hidden type="file" id="allFile" #allfile (change)="fileUpload($event)">
               <button (click)="allfile.click()">f</button>
-              <button type="button" class="btn btn-light btn-primary btn-lg btn-rounded float-end"
+              <button id="sendButton" #sendButton type="button" class="btn btn-light btn-primary btn-lg btn-rounded float-end"
                 (click)="send()">Send</button>
             </div>
 

@@ -5,4 +5,6 @@ export interface InputMessage {
     // SenderEmail :string;
     ReceiverEmail:string;
     // DateTime:Date
+    Type:number;
+    PathToFileAttachment?:string
 }
