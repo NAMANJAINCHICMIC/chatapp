@@ -25,6 +25,7 @@
               
               [scrollWindow]="false"
               (scrolledUp)="onScroll()"
+              (scrolled)="onScroll()"
               >
 
               <!-- <h2>{{hubHelloMessage |json}}</h2> -->
@@ -59,7 +60,7 @@
                     <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
                       alt="avatar 1" style="width: 45px; height: 100%;">
                      <div>
-                      <img [src]="message.pathToFileAttachement" alt="No image to show" style="height: 400; width: 400;">
+                      <img [src]="message.pathToFileAttachement" alt="No image to show" style="height: 400px; width: 400px;">
                       <!-- <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">{{message.pathToFileAttachement}} -->
                       <!-- </p> -->
                       <p class="small ms-3 mb-3 rounded-3 text-muted float-end">{{message.dateTime | date:'medium'}}</p>
@@ -84,17 +85,25 @@
                       alt="avatar 1" style="width: 45px; height: 100%;">
                      <div>
                       <!-- <img [src]="message.pathToFileAttachement" alt="No image to show"> -->
-                      <iframe [src]="message.pathToFileAttachement + '#toolbar=0'| safe: 'resourceUrl'" alt="No file to show" style="height: 400px; width: 400px;"></iframe>
-                      <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">{{message.pathToFileAttachement}}
-                      </p>
+                      <!-- <iframe [src]="message.pathToFileAttachement | safe: 'resourceUrl'" alt="No file to show" style="height: 400px; width: 400px;"></iframe> -->
+                      <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">{{message.pathToFileAttachement}}</p>
+                      <a class="large rounded-3 " style="background-color: #f5f6f7;" [href]="message.pathToFileAttachement | safe: 'resourceUrl'" alt="No file to show">
+                        open file
+                        <!-- <iframe [src]="message.pathToFileAttachement | safe: 'resourceUrl'" alt="No file to show" style="height: 400px; width: 400px;"></iframe> -->
+                      </a>
+                      
                       <p class="small ms-3 mb-3 rounded-3 text-muted float-end">{{message.dateTime | date:'medium'}}</p>
                     </div>
                   </div>
                   <div class="d-flex flex-row justify-content-end"
                     *ngIf=" (message.senderEmail === this.chatService.senderEmail)">
                     <div>
-                      <iframe [src]="message.pathToFileAttachement + '#toolbar=0' | safe: 'resourceUrl'" alt="No file to show"  style="height: 400px; width: 400px;"></iframe>
                       <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">{{message.pathToFileAttachement}}</p>
+                      <a class="large rounded-3 " style="background-color: #f5f6f7;" [href]="message.pathToFileAttachement | safe: 'resourceUrl'" alt="No file to show">
+                        open file
+                        <!-- <iframe [src]="message.pathToFileAttachement | safe: 'resourceUrl'" alt="No file to show" style="height: 400px; width: 400px;"></iframe> -->
+                      </a>
+                      
                       <p class="small me-3 mb-3 rounded-3 text-muted">{{message.dateTime | date:'medium'}}</p>
                     </div>
                     <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
