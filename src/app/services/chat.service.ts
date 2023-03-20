@@ -30,7 +30,7 @@ export class ChatService {
   senderEmail?: string | null;
   tokenValue = localStorage.getItem('token');
   onlineUsers: Array<any> = [];
-  messages: Message[] = [];
+  messages: Array<object> = [];
   privateMessages: Message[] = [];
   privateMesageInitiated = false;
   page = 1;
@@ -105,7 +105,7 @@ export class ChatService {
     this.hubConnection?.send("SendMessage", inputmsg,PathToFileAttachment).catch((error: any) => {
       console.log('error of sendMessage');
     });
-    console.log(inputmsg)
+    // console.log(inputmsg)
   }
 
   sendImage(ReceiverEmail: string, PathToFileAttachment: string ,Type:number,Content ?: string) {
@@ -137,7 +137,7 @@ export class ChatService {
     this.hubConnection?.send("SendMessage", inputmsg , PathToFileAttachment).catch((error: any) => {
       console.log('error of sendMessage');
     });
-    console.log(inputmsg)
+    // console.log(inputmsg)
   }
 
   createChat() {
@@ -171,12 +171,14 @@ export class ChatService {
     this.hubConnection.on('UserConnected', () => {
       this.addUserConnectionId();
     });
-    this.hubConnection?.on('ReceivedMessage', (someText: any) => {
-      //this.messages = [...this.messages, newMessage];
-      console.log("recevied Message", someText);
-      if (someText.senderEmail === this.receiverEmail) {
-        this.getChatMessages(1)
-      }
+    this.hubConnection?.on('ReceivedMessage', (newMessage: object) => {
+      // this.messages = [...this.messages, newMessage];
+      this.messages = [newMessage];
+      console.log("recevied Message", newMessage);
+      console.log('new message',this.messages)
+      // if (someText.senderEmail === this.receiverEmail) {
+      //   this.getChatMessages(1)
+      // }
     })
     this.hubConnection.on('UpdateOnlineUsers', (onlineUsers: any) => {
       this.onlineUsers = [...onlineUsers];

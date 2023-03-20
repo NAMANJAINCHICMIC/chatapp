@@ -23,7 +23,8 @@ export class ChatBodyComponent {
   throttle = 200;
   distance = 0;
   page = 1;
-  chatMessagedetail :any;
+  // chatMessagedetail :any;
+  chatMessagedetail: Array<any> = [] ;
   content?:string;
   fromEmail = this.chatService.senderEmail;
   updatedMessage : any;
@@ -41,6 +42,7 @@ constructor(public chatService: ChatService,private cdref: ChangeDetectorRef){
     if((chatService.receiverEmail=== hubHelloMessage[0].receiverEmail||chatService.receiverEmail=== hubHelloMessage[0].senderEmail )){
 
       this.chatMessagedetail = hubHelloMessage;
+      // this.chatMessagedetail = [...this.chatMessagedetail,hubHelloMessage]
 
     }
   });
@@ -72,7 +74,10 @@ send(){
   this.imgPath =''
   this.chatService.sendMessage(this.chatService.receiverEmail,1,this.content,this.imgPath)
   this.content = ""
-  this.chatService.getChatMessages(1);
+  // this.chatService.getChatMessages(1);
+  // this.chatMessagedetail = [...this.chatMessagedetail,this.chatService.messages]
+  this.chatMessagedetail.push(this.chatService.messages[0])
+  console.log("chatmessagedetail",this.chatMessagedetail)
 
 }
 imageUpload(event:any){
@@ -111,27 +116,19 @@ fileUpload(event :any){
    
 }
 onScrollUp(): void {
-  // this.commentService
-  //   .getCommentaries(++this.page)
-  //   .subscribe((commentaries: Comment[]) => {
-  //     this.commentaries.push(...commentaries);
-  //   });
+
   if(!(this.chatMessagedetail.length<30))
   this.chatService.getChatMessages(++this.page);
   // console.log("chatmessagedetail",this.chatMessagedetail.length)
-    // this.chatService.page = this.page
+
     console.log("scrollpageUp",this.page)
     // console.log("scrollpage",this.updatedMessage)
 }
 onScroll(): void {
-  // this.commentService
-  //   .getCommentaries(++this.page)
-  //   .subscribe((commentaries: Comment[]) => {
-  //     this.commentaries.push(...commentaries);
-  //   });
+
   if(this.page > 1)
     this.chatService.getChatMessages(--this.page);
-    // this.chatService.page = this.page
+
     console.log("scrollpageDown",this.page)
     // console.log("scrollpage",this.updatedMessage)
 }
