@@ -66,6 +66,7 @@ console.log(this.connectedUsers)
   selectUser(email:string){
     // console.log(email)
     // console.log("user selected")
+    this.chatService.page =1
     this.chatService.receiverEmail=email;
     this.chatService.createChat();
     // this.searchSubscription?.unsubscribe();

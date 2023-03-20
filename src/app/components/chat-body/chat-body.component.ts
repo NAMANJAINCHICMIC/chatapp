@@ -20,13 +20,13 @@ export class ChatBodyComponent {
   uploadImage : Blob | string=''
   uploadFile : Blob | string=''
   // hubHelloMessage =[];
-  throttle = 0;
+  throttle = 200;
   distance = 0;
   page = 1;
   chatMessagedetail :any;
   content?:string;
   fromEmail = this.chatService.senderEmail;
-
+  updatedMessage : any;
   imgTagSrc = ''
 imgPath='';
 filePath = '';
@@ -41,6 +41,7 @@ constructor(public chatService: ChatService,private cdref: ChangeDetectorRef){
     if((chatService.receiverEmail=== hubHelloMessage[0].receiverEmail||chatService.receiverEmail=== hubHelloMessage[0].senderEmail )){
 
       this.chatMessagedetail = hubHelloMessage;
+
     }
   });
 }
@@ -109,14 +110,29 @@ fileUpload(event :any){
     })
    
 }
+onScrollUp(): void {
+  // this.commentService
+  //   .getCommentaries(++this.page)
+  //   .subscribe((commentaries: Comment[]) => {
+  //     this.commentaries.push(...commentaries);
+  //   });
+  if(!(this.chatMessagedetail.length<30))
+  this.chatService.getChatMessages(++this.page);
+  // console.log("chatmessagedetail",this.chatMessagedetail.length)
+    // this.chatService.page = this.page
+    console.log("scrollpageUp",this.page)
+    // console.log("scrollpage",this.updatedMessage)
+}
 onScroll(): void {
   // this.commentService
   //   .getCommentaries(++this.page)
   //   .subscribe((commentaries: Comment[]) => {
   //     this.commentaries.push(...commentaries);
   //   });
-    // this.chatService.getChatMessages(++this.page);
+  if(this.page > 1)
+    this.chatService.getChatMessages(--this.page);
     // this.chatService.page = this.page
-    console.log("scrollpage")
+    console.log("scrollpageDown",this.page)
+    // console.log("scrollpage",this.updatedMessage)
 }
 }

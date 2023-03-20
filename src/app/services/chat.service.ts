@@ -33,7 +33,7 @@ export class ChatService {
   messages: Message[] = [];
   privateMessages: Message[] = [];
   privateMesageInitiated = false;
-  // page = 1;
+  page = 1;
   hubHelloMessage: BehaviorSubject<any>;
 
   public hubConnection: signalR.HubConnection | any;
@@ -149,11 +149,15 @@ export class ChatService {
     // this.getChatMessages(this.page)
   }
   getChatMessages(page: number) {
-    const message = this.hubConnection?.invoke("GetChatMessages", this.receiverEmail, 1).catch((error: any) => {
-      console.log('error of getChatMessages');
-    });
+    // const message = this.hubConnection?.invoke("GetChatMessages", this.receiverEmail, page).catch((error: any) => {
+      if(typeof(this.receiverEmail) != (null || undefined)){
+
+        this.hubConnection?.send("GetChatMessages", this.receiverEmail, page).catch((error: any) => {
+          console.log('error of getChatMessages');
+        });
+      }else if(page>1){--page}
     // this.hubHelloMessage.next(message);
-    return message
+    // return message
   }
   getChat() {
     return this.hubConnection?.invoke("GetChat").catch((error: any) => {

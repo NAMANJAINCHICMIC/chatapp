@@ -21,11 +21,12 @@
               #scrollMe id="scrollMe"   [scrollTop]="scrollMe.scrollHeight" infinite-scroll
             
               [infiniteScrollThrottle]="throttle"
-         
-              
+              [infiniteScrollDistance]="0"
+              [alwaysCallback]="true"
               [scrollWindow]="false"
-              (scrolledUp)="onScroll()"
+              (scrolledUp)="onScrollUp()"
               (scrolled)="onScroll()"
+           
               >
 
               <!-- <h2>{{hubHelloMessage |json}}</h2> -->
@@ -98,6 +99,7 @@
                   <div class="d-flex flex-row justify-content-end"
                     *ngIf=" (message.senderEmail === this.chatService.senderEmail)">
                     <div>
+                      <!-- <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">{{message.pathToFileAttachement}}</p> -->
                       <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">{{message.pathToFileAttachement}}</p>
                       <a class="large rounded-3 " style="background-color: #f5f6f7;" [href]="message.pathToFileAttachement | safe: 'resourceUrl'" alt="No file to show">
                         open file
@@ -118,7 +120,7 @@
               <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 3"
                 style="width: 40px; height: 100%;">
               <input type="text" class="form-control form-control-lg" id="exampleFormControlInput2"
-                placeholder="Type message" [(ngModel)]="content" name="content" required (submit)="sendButton.click()">
+                placeholder="Type message" [(ngModel)]="content" name="content" required >
               <!-- <a class="ms-1 text-muted" href="#!"><i class="fas fa-paperclip "></i></a>
               <a class="ms-3 text-muted" href="#!"><i class="fas fa-smile"></i></a>
               <a class="ms-3" href="#!"><i class="fas fa-paper-plane"></i></a> -->
