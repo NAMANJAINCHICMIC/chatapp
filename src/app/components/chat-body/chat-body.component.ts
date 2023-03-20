@@ -4,12 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { Message } from 'src/app/models/message';
 import { ChatService } from 'src/app/services/chat.service';
 import { ChangeDetectionStrategy } from "@angular/core";
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { SafePipeModule } from 'safe-pipe';
+import { DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-chat-body',
   changeDetection: ChangeDetectionStrategy.Default,
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, InfiniteScrollModule ,  SafePipeModule ],
   templateUrl: './chat-body.component.html',
   styleUrls: ['./chat-body.component.css']
 })
@@ -17,6 +20,9 @@ export class ChatBodyComponent {
   uploadImage : Blob | string=''
   uploadFile : Blob | string=''
   // hubHelloMessage =[];
+  throttle = 0;
+  distance = 0;
+  page = 1;
   chatMessagedetail :any;
   content?:string;
   fromEmail = this.chatService.senderEmail;
@@ -62,9 +68,10 @@ ngOnInit(): void {
 
 send(){
   
-  this.chatService.sendMessage(this.chatService.receiverEmail,1,this.content)
+  this.imgPath =''
+  this.chatService.sendMessage(this.chatService.receiverEmail,1,this.content,this.imgPath)
   this.content = ""
-  this.chatService.getChatMessages();
+  this.chatService.getChatMessages(1);
 
 }
 imageUpload(event:any){
@@ -76,7 +83,7 @@ imageUpload(event:any){
   console.log(res);
   this.imgPath = res.data
   // console.log(this.imgPath);
-  this.chatService.sendMessage(this.chatService.receiverEmail,2,this.content,this.imgPath)
+  this.chatService.sendImage(this.chatService.receiverEmail,this.imgPath,2,this.content)
   // this.chatService.sendImage(this.chatService.receiverEmail,this.filePath)
 },
   error => {
@@ -93,13 +100,23 @@ fileUpload(event :any){
   this.chatService.fileUpload(this.formData).subscribe((res:any)=>{
     console.log("data",res);
     this.filePath = res.data
-   
-    this.chatService.sendMessage(this.chatService.receiverEmail,3,this.content,this.filePath)
+    this.chatService.sendAllFile(this.chatService.receiverEmail,this.filePath,3,this.content)
+    // this.chatService.sendMessage(this.chatService.receiverEmail,3,this.content,this.filePath)
 
   },
     error => {
       console.log('Upload error:', error);
     })
    
+}
+onScroll(): void {
+  // this.commentService
+  //   .getCommentaries(++this.page)
+  //   .subscribe((commentaries: Comment[]) => {
+  //     this.commentaries.push(...commentaries);
+  //   });
+    // this.chatService.getChatMessages(++this.page);
+    // this.chatService.page = this.page
+    console.log("scrollpage")
 }
 }

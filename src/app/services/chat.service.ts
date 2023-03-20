@@ -33,7 +33,7 @@ export class ChatService {
   messages: Message[] = [];
   privateMessages: Message[] = [];
   privateMesageInitiated = false;
-
+  // page = 1;
   hubHelloMessage: BehaviorSubject<any>;
 
   public hubConnection: signalR.HubConnection | any;
@@ -100,41 +100,41 @@ export class ChatService {
       ReceiverEmail: to,
       Type: Type,
       Content,
-      PathToFileAttachment: PathToFileAttachment
+      // PathToFileAttachment: PathToFileAttachment
     };
-    this.hubConnection?.send("SendMessage", inputmsg).catch((error: any) => {
+    this.hubConnection?.send("SendMessage", inputmsg,PathToFileAttachment).catch((error: any) => {
       console.log('error of sendMessage');
     });
     console.log(inputmsg)
   }
 
-  sendImage(to: string, PathToFileAttachment: string) {
+  sendImage(ReceiverEmail: string, PathToFileAttachment: string ,Type:number,Content ?: string) {
 
-
+    PathToFileAttachment = AUTH_API + PathToFileAttachment;
     const inputmsg: InputMessage = {
 
-      ReceiverEmail: to,
+      ReceiverEmail: ReceiverEmail,
       Content: '',
       Type: 2,
-      PathToFileAttachment: PathToFileAttachment
+      // PathToFileAttachment: PathToFileAttachment
     };
-    this.hubConnection?.send("SendMessage", inputmsg).catch((error: any) => {
+    this.hubConnection?.send("SendMessage",  inputmsg , PathToFileAttachment).catch((error: any) => {
       console.log('error of sendMessage');
     });
-    console.log(inputmsg)
+    // console.log(inputmsg)
   }
 
-  sendAllFile(to: string, Content?: string) {
+  sendAllFile(ReceiverEmail: string, PathToFileAttachment: string ,Type:number,Content ?: string) {
 
-
+    PathToFileAttachment = AUTH_API + PathToFileAttachment;
     const inputmsg: InputMessage = {
 
-      ReceiverEmail: to,
-      Content,
+      ReceiverEmail: ReceiverEmail,
+      Content: '',
       Type: 3,
-      PathToFileAttachment: ""
+      // PathToFileAttachment: ""
     };
-    this.hubConnection?.send("SendMessage", inputmsg).catch((error: any) => {
+    this.hubConnection?.send("SendMessage", inputmsg , PathToFileAttachment).catch((error: any) => {
       console.log('error of sendMessage');
     });
     console.log(inputmsg)
@@ -145,9 +145,10 @@ export class ChatService {
       console.log('error of createChat');
     });
     console.log("create chat with ", this.receiverEmail)
-    this.getChatMessages()
+    this.getChatMessages(1)
+    // this.getChatMessages(this.page)
   }
-  getChatMessages() {
+  getChatMessages(page: number) {
     const message = this.hubConnection?.invoke("GetChatMessages", this.receiverEmail, 1).catch((error: any) => {
       console.log('error of getChatMessages');
     });
@@ -170,7 +171,7 @@ export class ChatService {
       //this.messages = [...this.messages, newMessage];
       console.log("recevied Message", someText);
       if (someText.senderEmail === this.receiverEmail) {
-        this.getChatMessages()
+        this.getChatMessages(1)
       }
     })
     this.hubConnection.on('UpdateOnlineUsers', (onlineUsers: any) => {
