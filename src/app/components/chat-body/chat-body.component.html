@@ -21,11 +21,11 @@
               #scrollMe id="scrollMe"   [scrollTop]="scrollMe.scrollHeight" infinite-scroll
             
               [infiniteScrollThrottle]="throttle"
-              [infiniteScrollDistance]="0"
-              [alwaysCallback]="true"
+              [infiniteScrollDistance]="2"
+              
               [scrollWindow]="false"
               (scrolledUp)="onScrollUp()"
-              (scrolled)="onScroll()"
+              
            
               >
 

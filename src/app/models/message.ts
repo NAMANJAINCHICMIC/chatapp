@@ -4,5 +4,6 @@ export interface Message {
     content: string;
     senderEmail :string;
     receiverEmail:string;
-    dateTime:Date
+    dateTime:Date;
+    messageId?:string;
 }

@@ -176,6 +176,7 @@ export class ChatService {
       this.messages = [newMessage];
       console.log("recevied Message", newMessage);
       console.log('new message',this.messages)
+      this.hubHelloMessage.next(this.messages);
       // if (someText.senderEmail === this.receiverEmail) {
       //   this.getChatMessages(1)
       // }

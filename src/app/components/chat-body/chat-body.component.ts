@@ -20,7 +20,7 @@ export class ChatBodyComponent {
   uploadImage : Blob | string=''
   uploadFile : Blob | string=''
   // hubHelloMessage =[];
-  throttle = 200;
+  throttle = 1000;
   distance = 0;
   page = 1;
   // chatMessagedetail :any;
@@ -41,9 +41,18 @@ constructor(public chatService: ChatService,private cdref: ChangeDetectorRef){
     console.log("constructor",hubHelloMessage)
     if((chatService.receiverEmail=== hubHelloMessage[0].receiverEmail||chatService.receiverEmail=== hubHelloMessage[0].senderEmail )){
 
-      this.chatMessagedetail = hubHelloMessage;
-      // this.chatMessagedetail = [...this.chatMessagedetail,hubHelloMessage]
+      
+            if(!(hubHelloMessage[0].messageId)){
+              console.log("not push")
+              this.chatMessagedetail.push(hubHelloMessage[0])
+            }else if(this.chatMessagedetail.length !=0 && (hubHelloMessage[0].messageId)){
+        // this.chatMessagedetail.unshift(hubHelloMessage)
+  this.chatMessagedetail = [...hubHelloMessage,...this.chatMessagedetail]
+}else{
+  this.chatMessagedetail = hubHelloMessage;
 
+}
+      console.log("chatmesssage detail",this.chatMessagedetail)
     }
   });
 }
@@ -76,8 +85,8 @@ send(){
   this.content = ""
   // this.chatService.getChatMessages(1);
   // this.chatMessagedetail = [...this.chatMessagedetail,this.chatService.messages]
-  this.chatMessagedetail.push(this.chatService.messages[0])
-  console.log("chatmessagedetail",this.chatMessagedetail)
+  // this.chatMessagedetail.push(this.chatService.messages[0])
+  // console.log("chatmessagedetail",this.chatMessagedetail)
 
 }
 imageUpload(event:any){
@@ -117,7 +126,7 @@ fileUpload(event :any){
 }
 onScrollUp(): void {
 
-  if(!(this.chatMessagedetail.length<30))
+  // if(!(this.chatMessagedetail.length<30))
   this.chatService.getChatMessages(++this.page);
   // console.log("chatmessagedetail",this.chatMessagedetail.length)
 
@@ -127,7 +136,7 @@ onScrollUp(): void {
 onScroll(): void {
 
   if(this.page > 1)
-    this.chatService.getChatMessages(--this.page);
+    // this.chatService.getChatMessages(--this.page);
 
     console.log("scrollpageDown",this.page)
     // console.log("scrollpage",this.updatedMessage)
