@@ -10,7 +10,7 @@
             <!--   
               <div class="row">
                 <div class="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0">
-  
+  [scrollTop]="scrollMe.scrollHeight"
   
                 </div>
   
@@ -18,8 +18,8 @@
    -->
             <div class="pt-3 pe-3" data-mdb-perfect-scrollbar="true" style="position: relative; height: 400px"
               class="overflow-auto" 
-              #scrollMe id="scrollMe"   [scrollTop]="scrollMe.scrollHeight" infinite-scroll
-            
+              #scrollMe id="scrollMe"    infinite-scroll
+            onscroll="onscroll()"
               [infiniteScrollThrottle]="throttle"
               [infiniteScrollDistance]="2"
               

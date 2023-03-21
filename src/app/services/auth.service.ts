@@ -173,4 +173,17 @@ export class AuthService {
   isLoggedIn():boolean{
     return !localStorage.getItem('token')
   }
+  userProfile(){
+    return this.http.get(
+      AUTH_API + 'api/v1/users/getYourself'  
+
+      // httpOptions = {
+      //   headers: new HttpHeaders({
+      //     'Content-Type': 'application/json',
+      //     'Authorization': "Bearer " + localStorage.getItem('token')
+
+      //   })
+      // }
+    );
+  }
 }

@@ -27,8 +27,8 @@ export class ChatBodyComponent {
   chatMessagedetail: Array<any> = [] ;
   content?:string;
   fromEmail = this.chatService.senderEmail;
-  updatedMessage : any;
-  imgTagSrc = ''
+  // updatedMessage : any;
+  // imgTagSrc = ''
 imgPath='';
 filePath = '';
   formData = new FormData()
@@ -43,7 +43,7 @@ constructor(public chatService: ChatService,private cdref: ChangeDetectorRef){
 
       
             if(!(hubHelloMessage[0].messageId)){
-              console.log("not push")
+              // console.log("not push")
               this.chatMessagedetail.push(hubHelloMessage[0])
             }else if(this.chatMessagedetail.length !=0 && (hubHelloMessage[0].messageId)){
         // this.chatMessagedetail.unshift(hubHelloMessage)
@@ -126,7 +126,7 @@ fileUpload(event :any){
 }
 onScrollUp(): void {
 
-  // if(!(this.chatMessagedetail.length<30))
+  if(!(this.chatMessagedetail.length<30))
   this.chatService.getChatMessages(++this.page);
   // console.log("chatmessagedetail",this.chatMessagedetail.length)
 
@@ -135,10 +135,10 @@ onScrollUp(): void {
 }
 onScroll(): void {
 
-  if(this.page > 1)
-    // this.chatService.getChatMessages(--this.page);
+  // if(this.page > 1)
+  //   // this.chatService.getChatMessages(--this.page);
 
-    console.log("scrollpageDown",this.page)
-    // console.log("scrollpage",this.updatedMessage)
+  //   console.log("scrollpageDown",this.page)
+    console.log("scrollpage")
 }
 }

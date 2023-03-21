@@ -155,7 +155,8 @@ export class ChatService {
         this.hubConnection?.send("GetChatMessages", this.receiverEmail, page).catch((error: any) => {
           console.log('error of getChatMessages');
         });
-      }else if(page>1){--page}
+      }
+      // else if(page>1){--page}
     // this.hubHelloMessage.next(message);
     // return message
   }
@@ -174,8 +175,7 @@ export class ChatService {
     this.hubConnection?.on('ReceivedMessage', (newMessage: object) => {
       // this.messages = [...this.messages, newMessage];
       this.messages = [newMessage];
-      console.log("recevied Message", newMessage);
-      console.log('new message',this.messages)
+     
       this.hubHelloMessage.next(this.messages);
       // if (someText.senderEmail === this.receiverEmail) {
       //   this.getChatMessages(1)
