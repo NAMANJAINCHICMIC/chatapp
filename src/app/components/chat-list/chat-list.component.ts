@@ -69,6 +69,7 @@ console.log(this.connectedUsers)
     this.chatService.page =1
     this.chatService.receiverEmail=email;
     this.chatService.createChat();
+    this.chatService.newChat =true;
     // this.searchSubscription?.unsubscribe();
     // this.searchQuery=''
     this.searchResults.length = 0

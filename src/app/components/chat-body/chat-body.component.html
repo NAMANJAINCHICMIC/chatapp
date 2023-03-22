@@ -15,7 +15,7 @@
   [scrollTop]="scrollMe.scrollHeight"
       onscroll="onscroll()"
                 </div>
-  
+     [scrollTop]="!disableScrollDown?scrollMe.scrollHeight:''"
                 <div class="col-md-6 col-lg-7 col-xl-8">
    -->
             <div class="pt-3 pe-3" data-mdb-perfect-scrollbar="true" style="position: relative; height: 400px"
@@ -24,7 +24,7 @@
               
               [infiniteScrollThrottle]="throttle"
               [infiniteScrollDistance]="2"
-              [scrollTop]="disableScrollDown?'':scrollMe.scrollHeight"
+              [scrollTop]="!disableScrollDown?scrollMe.scrollHeight:scrollMe.clientHeight"
               [scrollWindow]="false"
               (scrolledUp)="onScrollUp()"                        
               >
@@ -87,7 +87,7 @@
                      <div>
                       <!-- <img [src]="message.pathToFileAttachement" alt="No image to show"> -->
                       <!-- <iframe [src]="message.pathToFileAttachement | safe: 'resourceUrl'" alt="No file to show" style="height: 400px; width: 400px;"></iframe> -->
-                      <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">{{message.pathToFileAttachement}}</p>
+                      <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">{{message.fileName.split('\\')[2]}}</p>
                       <a class="large rounded-3 " style="background-color: #f5f6f7;" [href]="message.pathToFileAttachement | safe: 'resourceUrl'" alt="No file to show">
                         open file
                         <!-- <iframe [src]="message.pathToFileAttachement | safe: 'resourceUrl'" alt="No file to show" style="height: 400px; width: 400px;"></iframe> -->

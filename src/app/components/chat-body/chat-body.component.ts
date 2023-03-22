@@ -12,7 +12,8 @@ import { ToastrService } from 'ngx-toastr'
 
 @Component({
   selector: 'app-chat-body',
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.Default,
   standalone: true,
   imports: [CommonModule, FormsModule, InfiniteScrollModule ,  SafePipeModule,],
   templateUrl: './chat-body.component.html',
@@ -27,7 +28,7 @@ export class ChatBodyComponent {
   filePath = '';
   // hubHelloMessage =[];
   throttle = 1000;
-  distance = 0;
+  distance = 2;
   page = 1;
   // chatMessagedetail :any;
   chatMessagedetail: Array<any> = [] ;
@@ -39,9 +40,7 @@ export class ChatBodyComponent {
 constructor(public chatService: ChatService,private cdref: ChangeDetectorRef , private toastr: ToastrService){
  
   // this.waste = chatService.getChatMessages();
-  this.chatService.notification.subscribe((name:string)=>{
-    this.showToasterInfo(name)
-  })
+ 
 
   this.chatService.hubHelloMessage.subscribe((hubHelloMessage: Array<Message>) => {
     console.log("constructor",hubHelloMessage)
@@ -51,12 +50,13 @@ constructor(public chatService: ChatService,private cdref: ChangeDetectorRef , p
             if(!(hubHelloMessage[0].messageId)){
               // console.log("not push")
               this.chatMessagedetail.push(hubHelloMessage[0])
-            }else if(this.chatMessagedetail.length !=0 && (hubHelloMessage[0].messageId)){
-        // this.chatMessagedetail.unshift(hubHelloMessage)
-  this.chatMessagedetail = [...hubHelloMessage,...this.chatMessagedetail]
-}else{
+            }else if(chatService.newChat){
   this.chatMessagedetail = hubHelloMessage;
-
+  chatService.newChat =false;
+  this.disableScrollDown = false
+}else if(this.chatMessagedetail.length !=0 && (hubHelloMessage[0].messageId) ){
+  // this.chatMessagedetail.unshift(hubHelloMessage)
+this.chatMessagedetail = [...hubHelloMessage,...this.chatMessagedetail]
 }
       console.log("chatmesssage detail",this.chatMessagedetail)
     }
@@ -84,6 +84,9 @@ ngOnInit(): void {
   //     alert('SignalrDemoHub.Hello() error!, see console for details.');
   //   }
   // );
+  this.chatService.notification.subscribe((name:string)=>{
+    this.showToasterInfo(name)
+  })
 }
 // ngAfterViewInit() {
 //   // this.scrollToBottom();
@@ -148,9 +151,12 @@ onScrollUp(): void {
   // console.log("chatmessagedetail",this.chatMessagedetail.length)
 
     console.log("scrollpageUp",this.page)
-    // console.log("scrollpage",this.updatedMessage)
+
     const element = this.myScrollContainer.nativeElement
+    console.log("scrollpageUp e",element.scrollHeight)
+
   const atBottom = element.scrollHeight - element.scrollTop === element.clientHeight
+  console.log("scrollpageUp b",atBottom)
   if (this.disableScrollDown && atBottom) {
       this.disableScrollDown = false
   } else {
@@ -187,5 +193,7 @@ scrollToBottom(): void {
 showToasterInfo(name:string){
   this.toastr.info("New message received from "+ name)
 }
-
+showProfilePic(){
+  this.chatService.searchUserByEmail(this.chatMessagedetail[0].senderEmail)
+}
 }

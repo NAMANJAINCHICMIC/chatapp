@@ -32,7 +32,7 @@ export class ChatService {
   onlineUsers: Array<any> = [];
   messages: Array<object> = [];
   privateMessages: Message[] = [];
-  privateMesageInitiated = false;
+  newChat = false;
   page = 1;
   hubHelloMessage: BehaviorSubject<any>;
   notification : BehaviorSubject<any>= new BehaviorSubject<any>('');
@@ -180,19 +180,23 @@ export class ChatService {
       // if (someText.senderEmail === this.receiverEmail) {
       //   this.getChatMessages(1)
       // }
-      this.searchUserByEmail(newMessage.senderEmail).subscribe(
+      if(newMessage?.senderEmail !== this.senderEmail){
+
+     
+      this.searchUserByEmail(newMessage?.senderEmail).subscribe(
         (res:any) => {
           
           console.log(res);
           if (res.success) {
-             console.log(res.data[0].firstName)
-             this.notification.next(res.data[0].firstName);
+             console.log("firstname",res?.data[0]?.firstName)
+             this.notification.next(res?.data[0]?.firstName);
           } else {
             console.log("show errors")          
           }
          
         }
         )
+      }
     })
     this.hubConnection.on('UpdateOnlineUsers', (onlineUsers: any) => {
       this.onlineUsers = [...onlineUsers];
