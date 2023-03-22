@@ -35,7 +35,7 @@ export class ChatService {
   privateMesageInitiated = false;
   page = 1;
   hubHelloMessage: BehaviorSubject<any>;
-
+  notification : BehaviorSubject<any>= new BehaviorSubject<any>('');
   public hubConnection: signalR.HubConnection | any;
 
   constructor(private http: HttpClient,) {
@@ -172,14 +172,27 @@ export class ChatService {
     this.hubConnection.on('UserConnected', () => {
       this.addUserConnectionId();
     });
-    this.hubConnection?.on('ReceivedMessage', (newMessage: object) => {
+    this.hubConnection?.on('ReceivedMessage', (newMessage: any) => {
       // this.messages = [...this.messages, newMessage];
       this.messages = [newMessage];
-     
+      console.log("ReceivedMessage", newMessage);
       this.hubHelloMessage.next(this.messages);
       // if (someText.senderEmail === this.receiverEmail) {
       //   this.getChatMessages(1)
       // }
+      this.searchUserByEmail(newMessage.senderEmail).subscribe(
+        (res:any) => {
+          
+          console.log(res);
+          if (res.success) {
+             console.log(res.data[0].firstName)
+             this.notification.next(res.data[0].firstName);
+          } else {
+            console.log("show errors")          
+          }
+         
+        }
+        )
     })
     this.hubConnection.on('UpdateOnlineUsers', (onlineUsers: any) => {
       this.onlineUsers = [...onlineUsers];
@@ -193,7 +206,7 @@ export class ChatService {
     this.hubConnection?.on('RecievedChatMessages', (someText: Array<object>) => {
 
       console.log("RecievedChatMessages", someText);
-      this.hubHelloMessage.next(someText);
+      this.hubHelloMessage?.next(someText);
     })
     this.hubConnection?.on('ReceivedChats', (someText: any) => {
 

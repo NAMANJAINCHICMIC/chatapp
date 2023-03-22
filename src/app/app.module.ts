@@ -7,7 +7,8 @@ import { AppComponent } from './app.component';
 import { AuthService } from './services/auth.service';
 import {  SocialAuthServiceConfig, FacebookLoginProvider } from '@abacritt/angularx-social-login';
 import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
-
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
     AppRoutingModule,
     HttpClientModule, 
     // SocialLoginModule,
-    
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
 
 

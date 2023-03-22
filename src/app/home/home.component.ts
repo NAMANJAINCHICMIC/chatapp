@@ -7,22 +7,23 @@ import { ChatListComponent } from '../components/chat-list/chat-list.component';
 import { ChatBodyComponent } from '../components/chat-body/chat-body.component';
 import { ChatService } from '../services/chat.service';
 import { Subject, Subscription } from 'rxjs';
+import { HeaderComponent } from "../components/header/header.component";
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  providers: [
-    ChatService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: (chatService: ChatService) => () => chatService.initiateSignalrConnection(chatService.tokenValue),
-      deps: [ChatService],
-      multi: true,
-    }
-  ],
-  imports: [CommonModule,RouterModule,ChatBodyComponent,ChatListComponent],
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+    selector: 'app-home',
+    standalone: true,
+    providers: [
+        ChatService,
+        {
+            provide: APP_INITIALIZER,
+            useFactory: (chatService: ChatService) => () => chatService.initiateSignalrConnection(chatService.tokenValue),
+            deps: [ChatService],
+            multi: true,
+        }
+    ],
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.css'],
+    imports: [CommonModule, RouterModule, ChatBodyComponent, ChatListComponent, HeaderComponent]
 })
 export class HomeComponent implements OnInit {
   userName = ""

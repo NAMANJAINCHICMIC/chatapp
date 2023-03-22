@@ -9,6 +9,7 @@ import { SignInComponent } from './auth/sign-in/sign-in.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { VerifyUserComponent } from './auth/verify-user/verify-user.component';
 import { ProfilePageComponent } from './components/profile-page/profile-page.component';
+import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
 
 import { AuthGuard } from './guards/auth.guard';
 // import { HomeComponent } from './home/home.component';
@@ -36,7 +37,8 @@ const routes: Routes = [
     {path:'verify-user',component: VerifyUserComponent},
     {path:'change-password',component:ChangePasswordComponent,  canActivate:[AuthGuard]},
     {path:'forget-password',component:ForgetPasswordComponent},
-    {path:'profile-page',component:ProfilePageComponent},
+    {path:'view-profile',component:ProfilePageComponent},
+    {path:'edit-profile',component:UpdateProfileComponent},
     {
         path: 'home',
         loadComponent: () => import('./home/home.component')

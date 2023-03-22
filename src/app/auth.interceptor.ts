@@ -15,7 +15,7 @@ constructor(private router: Router){}
     })
     return next.handle(req)
     .pipe(catchError((error: HttpErrorResponse) => {
-      if (error.status === 401 ) {
+      if (error.status === 401  ) {
         alert('401 Unathurized');
         console.log("Unathurized")
        localStorage.clear()

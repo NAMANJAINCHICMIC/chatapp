@@ -186,4 +186,13 @@ export class AuthService {
       // }
     );
   }
+  updateUserProfile(data:any):Observable<any>{
+    return this.http.put(AUTH_API + 'api/v1/users/update', data, {
+      headers: new HttpHeaders({
+         'Content-Type': 'application/json',
+         'Authorization': "Bearer "+ localStorage.getItem('token')
+    
+    })
+    });
+  }
 }

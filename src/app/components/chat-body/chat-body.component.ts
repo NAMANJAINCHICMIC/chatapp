@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Message } from 'src/app/models/message';
 import { ChatService } from 'src/app/services/chat.service';
@@ -7,18 +7,24 @@ import { ChangeDetectionStrategy } from "@angular/core";
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { SafePipeModule } from 'safe-pipe';
 import { DomSanitizer} from '@angular/platform-browser';
+import { ToastrModule } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr'
 
 @Component({
   selector: 'app-chat-body',
   changeDetection: ChangeDetectionStrategy.Default,
   standalone: true,
-  imports: [CommonModule, FormsModule, InfiniteScrollModule ,  SafePipeModule ],
+  imports: [CommonModule, FormsModule, InfiniteScrollModule ,  SafePipeModule,],
   templateUrl: './chat-body.component.html',
   styleUrls: ['./chat-body.component.css']
 })
 export class ChatBodyComponent {
+  @ViewChild('scrollMe') myScrollContainer!: ElementRef<any>;
+  disableScrollDown = false
   uploadImage : Blob | string=''
+  imgPath='';
   uploadFile : Blob | string=''
+  filePath = '';
   // hubHelloMessage =[];
   throttle = 1000;
   distance = 0;
@@ -29,19 +35,19 @@ export class ChatBodyComponent {
   fromEmail = this.chatService.senderEmail;
   // updatedMessage : any;
   // imgTagSrc = ''
-imgPath='';
-filePath = '';
   formData = new FormData()
-constructor(public chatService: ChatService,private cdref: ChangeDetectorRef){
+constructor(public chatService: ChatService,private cdref: ChangeDetectorRef , private toastr: ToastrService){
  
   // this.waste = chatService.getChatMessages();
-
+  this.chatService.notification.subscribe((name:string)=>{
+    this.showToasterInfo(name)
+  })
 
   this.chatService.hubHelloMessage.subscribe((hubHelloMessage: Array<Message>) => {
     console.log("constructor",hubHelloMessage)
-    if((chatService.receiverEmail=== hubHelloMessage[0].receiverEmail||chatService.receiverEmail=== hubHelloMessage[0].senderEmail )){
-
-      
+    
+    if((chatService?.receiverEmail=== hubHelloMessage[0]?.receiverEmail||chatService?.receiverEmail=== hubHelloMessage[0]?.senderEmail )){
+   
             if(!(hubHelloMessage[0].messageId)){
               // console.log("not push")
               this.chatMessagedetail.push(hubHelloMessage[0])
@@ -60,15 +66,17 @@ ngAfterContentChecked() {
   // this.sampleViewModel.DataContext = this.DataContext;
   // this.sampleViewModel.Position = this.Position;
   this.cdref.detectChanges();
+  // this.scrollToBottom();
 }
 ngOnInit(): void {
   this.chatService.hubHelloMessage.subscribe((hubHelloMessage: any) => {
     console.log(hubHelloMessage)
    
     // this.hubHelloMessage = hubHelloMessage;
-   
+    // this.disableScrollDown = false
+    // this.scrollToBottom();
   });
-
+ 
   // this.chatService.hubConnection
   //   .invoke('Hello')
   //   .catch((error: any) => {
@@ -77,6 +85,11 @@ ngOnInit(): void {
   //   }
   // );
 }
+// ngAfterViewInit() {
+//   // this.scrollToBottom();
+//   // this.messages.changes.subscribe(this.scrollToBottom);
+// }
+
 
 send(){
   
@@ -87,7 +100,8 @@ send(){
   // this.chatMessagedetail = [...this.chatMessagedetail,this.chatService.messages]
   // this.chatMessagedetail.push(this.chatService.messages[0])
   // console.log("chatmessagedetail",this.chatMessagedetail)
-
+  this.disableScrollDown = false
+  // this.scrollToBottom();
 }
 imageUpload(event:any){
   this.uploadImage = event.target.files[0]
@@ -96,10 +110,12 @@ imageUpload(event:any){
 
  this.chatService.imageUpload(this.formData).subscribe((res:any)=>{
   console.log(res);
-  this.imgPath = res.data
-  // console.log(this.imgPath);
+  this.imgPath = res.data.pathToFile
+  console.log(this.imgPath);
   this.chatService.sendImage(this.chatService.receiverEmail,this.imgPath,2,this.content)
   // this.chatService.sendImage(this.chatService.receiverEmail,this.filePath)
+  this.disableScrollDown = false
+  // this.scrollToBottom();
 },
   error => {
     console.log('Upload error:', error);
@@ -114,10 +130,11 @@ fileUpload(event :any){
    
   this.chatService.fileUpload(this.formData).subscribe((res:any)=>{
     console.log("data",res);
-    this.filePath = res.data
+    this.filePath = res.data.pathToFile
     this.chatService.sendAllFile(this.chatService.receiverEmail,this.filePath,3,this.content)
     // this.chatService.sendMessage(this.chatService.receiverEmail,3,this.content,this.filePath)
-
+    this.disableScrollDown = false
+    // this.scrollToBottom();
   },
     error => {
       console.log('Upload error:', error);
@@ -132,13 +149,43 @@ onScrollUp(): void {
 
     console.log("scrollpageUp",this.page)
     // console.log("scrollpage",this.updatedMessage)
+    const element = this.myScrollContainer.nativeElement
+  const atBottom = element.scrollHeight - element.scrollTop === element.clientHeight
+  if (this.disableScrollDown && atBottom) {
+      this.disableScrollDown = false
+  } else {
+      this.disableScrollDown = true
+  }
 }
-onScroll(): void {
+// onScroll(): void {
 
-  // if(this.page > 1)
-  //   // this.chatService.getChatMessages(--this.page);
+//   // if(this.page > 1)
+//   //   // this.chatService.getChatMessages(--this.page);
 
-  //   console.log("scrollpageDown",this.page)
-    console.log("scrollpage")
+//   //   console.log("scrollpageDown",this.page)
+//     console.log("scrollpage")
+// }
+onScroll() {
+  // const element = this.myScrollContainer.nativeElement
+  // const atBottom = element.scrollHeight - element.scrollTop === element.clientHeight
+  // if (this.disableScrollDown && atBottom) {
+  //     this.disableScrollDown = false
+  // } else {
+  //     this.disableScrollDown = true
+  // }
 }
+
+
+scrollToBottom(): void {
+  if (this.disableScrollDown) {
+      return
+  }
+ console.log("scroll down")
+  this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+  
+}
+showToasterInfo(name:string){
+  this.toastr.info("New message received from "+ name)
+}
+
 }
