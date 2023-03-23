@@ -9,7 +9,7 @@ import { SafePipeModule } from 'safe-pipe';
 import { DomSanitizer} from '@angular/platform-browser';
 import { ToastrModule } from 'ngx-toastr';
 import { ToastrService } from 'ngx-toastr'
-
+// import { MatIconModule } from '@angular/material/icon'; 
 @Component({
   selector: 'app-chat-body',
   changeDetection: ChangeDetectionStrategy.OnPush,
