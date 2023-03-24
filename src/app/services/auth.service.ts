@@ -6,10 +6,12 @@ import { SocialAuthService, SocialUser } from "@abacritt/angularx-social-login";
 import { GoogleLoginProvider } from "@abacritt/angularx-social-login";
 import { Token } from '@angular/compiler';
 import { ChatService } from './chat.service';
+import { environment } from 'src/environment';
 
 
 // const AUTH_API ='http://192.180.2.159:4040/'
-const AUTH_API ='http://192.180.0.192:4040/'
+// const AUTH_API ='http://192.180.0.192:4040/'
+const AUTH_API = environment.AUTH_API;
 // var headers_object = new HttpHeaders({
 //   'Content-Type': 'application/json',
 //    'Authorization': "Bearer "+t)
@@ -139,16 +141,7 @@ export class AuthService {
         this.router.navigate(['/']);
       }}
     );
-    // localStorage.clear();
-    // this.router.navigate(['/']);
-    // this.externalAuthService.signOut();
-    // return this.http.post(AUTH_API + 'api/v1/user/logout', { }, {
-    //   headers: new HttpHeaders({
-    //      'Content-Type': 'application/json',
-    //      'Authorization': "Bearer "+ localStorage.getItem('token')
-    
-    // })
-    // });
+
   }
   storeToken(tokenValue:string){
     localStorage.setItem('token',tokenValue)

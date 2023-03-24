@@ -6,10 +6,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Message } from '../models/message';
 import { UserList } from '../models/userList';
 import { InputMessage } from '../models/input-message';
+import { environment } from 'src/environment';
 
 
 //const AUTH_API = 'http://192.180.2.128:5050/'
-const AUTH_API = 'http://192.180.0.192:4040/'
+const AUTH_API = environment.AUTH_API;
+// const AUTH_API = 'http://192.180.0.192:4040/'
 // const AUTH_API = 'http://192.180.0.127:4040/'
 
 let httpOptions = {
@@ -24,14 +26,14 @@ let httpOptions = {
   providedIn: 'root'
 })
 export class ChatService {
-  myName = '';
+  // myName = '';
   receiverEmail = '';
   receiverName = '';
   senderEmail?: string | null;
   tokenValue = localStorage.getItem('token');
   onlineUsers: Array<any> = [];
   messages: Array<object> = [];
-  privateMessages: Message[] = [];
+  // privateMessages: Message[] = [];
   newChat = false;
   page = 1;
   hubHelloMessage: BehaviorSubject<any>;
@@ -93,8 +95,6 @@ export class ChatService {
 
 
   sendMessage(to: string,Type:number, Content?: string,PathToFileAttachment?: string) {
-
-
     const inputmsg: InputMessage = {
 
       ReceiverEmail: to,
@@ -109,7 +109,6 @@ export class ChatService {
   }
 
   sendImage(ReceiverEmail: string, PathToFileAttachment: string ,Type:number,Content ?: string) {
-
     PathToFileAttachment = AUTH_API + PathToFileAttachment;
     const inputmsg: InputMessage = {
 
@@ -125,7 +124,6 @@ export class ChatService {
   }
 
   sendAllFile(ReceiverEmail: string, PathToFileAttachment: string ,Type:number,Content ?: string) {
-
     PathToFileAttachment = AUTH_API + PathToFileAttachment;
     const inputmsg: InputMessage = {
 
@@ -149,16 +147,13 @@ export class ChatService {
     // this.getChatMessages(this.page)
   }
   getChatMessages(page: number) {
-    // const message = this.hubConnection?.invoke("GetChatMessages", this.receiverEmail, page).catch((error: any) => {
       if(typeof(this.receiverEmail) != (null || undefined)){
 
         this.hubConnection?.send("GetChatMessages", this.receiverEmail, page).catch((error: any) => {
           console.log('error of getChatMessages');
         });
       }
-      // else if(page>1){--page}
-    // this.hubHelloMessage.next(message);
-    // return message
+
   }
   getChat() {
     return this.hubConnection?.invoke("GetChat").catch((error: any) => {
@@ -180,20 +175,16 @@ export class ChatService {
       // if (someText.senderEmail === this.receiverEmail) {
       //   this.getChatMessages(1)
       // }
-      if(newMessage?.senderEmail !== this.senderEmail){
-
-     
+      if(newMessage?.senderEmail !== this.senderEmail){   
       this.searchUserByEmail(newMessage?.senderEmail).subscribe(
-        (res:any) => {
-          
+        (res:any) => {        
           console.log(res);
           if (res.success) {
              console.log("firstname",res?.data[0]?.firstName)
              this.notification.next(res?.data[0]?.firstName);
           } else {
             console.log("show errors")          
-          }
-         
+          }      
         }
         )
       }
@@ -203,70 +194,52 @@ export class ChatService {
       console.log("onlineUsers", onlineUsers);
     });
     this.hubConnection?.on('ChatCreated', (someText: any) => {
-
       console.log("ChatCreated", someText);
       // this.getChat()
     })
     this.hubConnection?.on('RecievedChatMessages', (someText: Array<object>) => {
-
       console.log("RecievedChatMessages", someText);
       this.hubHelloMessage?.next(someText);
     })
     this.hubConnection?.on('ReceivedChats', (someText: any) => {
-
       console.log("ReceivedChats", someText);
-
     })
     this.hubConnection?.on('refresh', (someText: any) => {
-
       console.log("refresh", someText);
       this.hubConnection?.send("OnlineUsers").catch((error: any) => {
         console.log('error of OnlineUsers');
       });
-
     })
-
   }
-
-
   searchUser(data: string | null | undefined): Observable<any> {
-
     return this.http.get(
       AUTH_API + 'api/v1/users/get' + '?searchString=' + data,
-
       httpOptions = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
           'Authorization': "Bearer " + localStorage.getItem('token')
-
         })
       }
     );
   }
   userData(): Observable<any> {
-
     return this.http.get(
       AUTH_API + 'api/v1/users/get',
-
       httpOptions = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
           'Authorization': "Bearer " + localStorage.getItem('token')
-
         })
       }
     );
   }
   searchUserByEmail(data: string | null | undefined): Observable<any> {
-
     return this.http.get(
       AUTH_API + 'api/v1/users/get' + '?Email=' + data,
-
       httpOptions = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
           'Authorization': "Bearer " + localStorage.getItem('token')
-
         })
       }
     );
@@ -276,23 +249,18 @@ export class ChatService {
     return this.hubConnection?.send('AddUserConnectionId', this.senderEmail)
       .catch((error: any) => console.log("addUserConnectionId show erorr", error));
   }
-  fileUpload(file: FormData): Observable<any> {
 
+  fileUpload(file: FormData): Observable<any> {
     return this.http.post(
       AUTH_API + 'api/v1/uploadFile' + '?type=3', file,
-
     );
   }
   imageUpload(file: any): Observable<any> {
-
     const params = {
       type: 2,
-
     }
     return this.http.post(
-
       AUTH_API + 'api/v1/uploadFile', file, { params: params }
     );
   }
-
 }

@@ -5,63 +5,60 @@
         <div class="card" style="border-radius: 15px;">
           <div class="card-body p-5">
             <h2 class="text-uppercase text-center mb-5">Login account</h2>
-<form [formGroup]="loginForm" class="" (ngSubmit)="onSubmit()">
-  <div class="form-group form-outline mb-4">
-    <label for="exampleInputEmail1">Email address</label>
-    <input type="email" required
-      [ngClass]="{'is-invalid': controlName.email.errors && (controlName.email.touched || controlName.email.dirty), 'is-valid':controlName.email.valid}"
-      formControlName="email" class="form-control form-control-lg " id="exampleInputEmail1" aria-describedby="emailHelp"
-      placeholder="Enter email">
-    <div class="alert alert-danger" *ngIf="controlName.email.errors?.['required'] && showError ">
-      Email is required.
-    </div>
+            <form [formGroup]="loginForm" class="" (ngSubmit)="onSubmit()">
+              <div class="form-group form-outline mb-4">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" required
+                  [ngClass]="{'is-invalid': controlName.email.errors && (controlName.email.touched || controlName.email.dirty), 'is-valid':controlName.email.valid}"
+                  formControlName="email" class="form-control form-control-lg " id="exampleInputEmail1"
+                  aria-describedby="emailHelp" placeholder="Enter email">
+                <div class="alert alert-danger" *ngIf="controlName.email.errors?.['required'] && showError ">
+                  Email is required.
+                </div>
 
-  </div>
-  <div class="form-group form-outline mb-4">
-    <label for="exampleInputPassword1">Password</label>
-    <!-- <input type="password" class="form-control col-md-4" id="exampleInputPassword1" formControlName="password"  [ngClass]="{'is-invalid': controlName.password.errors && (controlName.password.touched || controlName.password.dirty), 'is-valid':controlName.password.valid}" placeholder="Password"> -->
-    <div class="d-flex ">
-      <input [type]="visible?'password':'text'" class="form-control col   form-control-lg" id="inputPassword4" formControlName="password"
-        [ngClass]="{'is-invalid': controlName.password.errors && (controlName.password.touched || controlName.password.dirty), 'is-valid':controlName.password.valid}"
-        placeholder="Password" >
-      <span class="eyeicon col align-self-center justify-content-center "><i
-          [ngClass]="visible?'fa fa-eye':'fa fa-eye-slash'" (click)="viewPassword()"></i>
-      </span>
-    </div>
-    <div class="alert alert-danger"
-      *ngIf="controlName.password.errors?.['required'] && showError">
-      Password is required.
-    </div>
-    <div *ngIf="controlName.password.errors?.['pattern'] && showError" class="alert alert-danger">
-      Password must be at least eight characters, at least one uppercase letter, one lowercase letter, one number and one special character:
-    </div>
-    <!-- <div *ngIf="controlName.password.errors?.['minlength'] && showError" class="alert alert-danger">
-      Password must be at least 8 characters long.
-    </div> -->
+              </div>
+              <div class="form-group form-outline mb-4">
+                <label for="exampleInputPassword1">Password</label>
+                <!-- <input type="password" class="form-control col-md-4" id="exampleInputPassword1" formControlName="password"  [ngClass]="{'is-invalid': controlName.password.errors && (controlName.password.touched || controlName.password.dirty), 'is-valid':controlName.password.valid}" placeholder="Password"> -->
+                <div class="d-flex ">
+                  <input [type]="visible?'password':'text'" class="form-control col   form-control-lg"
+                    id="inputPassword4" formControlName="password"
+                    [ngClass]="{'is-invalid': controlName.password.errors && (controlName.password.touched || controlName.password.dirty), 'is-valid':controlName.password.valid}"
+                    placeholder="Password">
+                  <span class="eyeicon col align-self-center justify-content-center "><i
+                      [ngClass]="visible?'fa fa-eye':'fa fa-eye-slash'" (click)="viewPassword()"></i>
+                  </span>
+                </div>
+                <div class="alert alert-danger" *ngIf="controlName.password.errors?.['required'] && showError">
+                  Password is required.
+                </div>
+                <div *ngIf="controlName.password.errors?.['pattern'] && showError" class="alert alert-danger">
+                  Password must be at least eight characters, at least one uppercase letter, one lowercase letter, one
+                  number and one special character:
+                </div>
+     
 
-  </div>
-  <!-- <div class="form-group form-check">
-      <input type="checkbox" class="form-check-input" id="exampleCheck1">
-      <label class="form-check-label" for="exampleCheck1">Check me out</label>
-    </div> -->
-  <button type="submit" class="btn btn-primary">Submit</button>
-  <p>Don't have Account <a class="nav-link" (click)="onClick()">Create One!</a></p>
-  <a class="nav-link" (click)="onClickForget()">Forget Password</a>
-</form>
-<hr>
-<div>
-  <h2>OR</h2>
-  <div style="padding: 20px;">
-    <!-- <a  class="nav-link">Sign in with google</a>   -->
-  </div>
-</div>
-<!-- <asl-google-signin-button></asl-google-signin-button> -->
-<div>
+              </div>
+       
+              <button type="submit" class="btn btn-primary">Submit</button>
+              <p>Don't have Account <a class="nav-link" (click)="onClick()">Create One!</a></p>
+              <a class="nav-link" (click)="onClickForget()">Forget Password</a>
+            </form>
+            <hr>
+            <div>
+              <h2>OR</h2>
+              <div style="padding: 20px;">
+                <!-- <a  class="nav-link">Sign in with google</a>   -->
+              </div>
+            </div>
+            <!-- <asl-google-signin-button></asl-google-signin-button> -->
+            <div>
 
-  <asl-google-signin-button type='icon' size='medium'></asl-google-signin-button><a  class="nav-link">Sign in with google</a> 
-  <!-- <button (click)="signInWithFB()">Sign with facebook</button> -->
-</div>
-<!-- <div
+              <asl-google-signin-button type='icon' size='medium'></asl-google-signin-button><a class="nav-link">Sign in
+                with google</a>
+              <!-- <button (click)="signInWithFB()">Sign with facebook</button> -->
+            </div>
+            <!-- <div
 class="fb-login-button"
 data-max-rows="1"
 data-size="<medium, large>"
@@ -69,16 +66,19 @@ data-button-type="continue_with"
 data-width="<100% or px>"
 data-scope="<comma separated list of permissions, e.g. public_profile, email>"
 ></div> -->
-<!-- <div class="fb-login-button" data-width="" data-size="" data-button-type="" data-layout="" data-auto-logout-link="false" data-use-continue-as="false"></div> -->
-<!-- 
+            <!-- <div class="fb-login-button" data-width="" data-size="" data-button-type="" data-layout="" data-auto-logout-link="false" data-use-continue-as="false"></div> -->
+            <!-- 
 <fb:login-button 
   scope="public_profile,email"
   onlogin="checkLoginState();">
 </fb:login-button> -->
-<div class="fb-login-button" data-width="" data-size="" data-button-type="" data-layout="" data-auto-logout-link="true" data-use-continue-as="false"></div>
-<div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v16.0&appId=516188470694250&autoLogAppEvents=1" nonce="YPYncnVk"></script>
-<!-- <script>
+            <div class="fb-login-button" data-width="" data-size="" data-button-type="" data-layout=""
+              data-auto-logout-link="true" data-use-continue-as="false"></div>
+            <div id="fb-root"></div>
+            <script async defer crossorigin="anonymous"
+              src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v16.0&appId=516188470694250&autoLogAppEvents=1"
+              nonce="YPYncnVk"></script>
+            <!-- <script>
   window.fbAsyncInit = function() {
     FB.init({
       appId      : '516188470694250',
@@ -100,9 +100,9 @@ data-scope="<comma separated list of permissions, e.g. public_profile, email>"
    }(document, 'script', 'facebook-jssdk'));
 </script> -->
 
-</div>
-</div>
-</div>
-</div>
-</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

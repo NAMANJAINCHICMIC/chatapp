@@ -1,4 +1,3 @@
-
 <section style="background-color: #CDC4F9;">
   <div class="container py-5">
     <h3>{{chatService.receiverName}}</h3>
@@ -20,28 +19,24 @@
                 <div class="col-md-6 col-lg-7 col-xl-8">
    -->
             <div class="pt-3 pe-3" data-mdb-perfect-scrollbar="true" style="position: relative; height: 400px"
-              class="overflow-auto" 
-              #scrollMe id="scrollMe"    infinite-scroll
-              
-              [infiniteScrollThrottle]="throttle"
-              [infiniteScrollDistance]="2"
-              [scrollTop]="!disableScrollDown?scrollMe.scrollHeight:scrollMe.clientHeight"
-              [scrollWindow]="false"
-              (scrolledUp)="onScrollUp()"                        
-              >
+              class="overflow-auto" #scrollMe id="scrollMe" infinite-scroll [infiniteScrollThrottle]="throttle"
+              [infiniteScrollDistance]="2" [scrollTop]="!disableScrollDown?scrollMe.scrollHeight:scrollMe.clientHeight"
+              [scrollWindow]="false" (scrolledUp)="onScrollUp()">
 
               <!-- <h2>{{hubHelloMessage |json}}</h2> -->
-              <div *ngFor=" let message of chatMessagedetail" >
+              <div *ngFor=" let message of chatMessagedetail">
                 <!-- <div *ngFor=" let message of messages"> -->
                 <div *ngIf="message.type ===1 && !(message.content==='')">
 
                   <div class="d-flex flex-row justify-content-start"
                     *ngIf="message.senderEmail !== this.chatService.senderEmail">
-                    <img *ngIf="message?.senderPicPath ===null" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
+                    <img *ngIf="message?.senderPicPath ===null"
+                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
                       alt="Profile Pic" style="width: 45px; height: 100%;">
-                      <!-- <img *ngIf="message?.pathToProfilePic ===null" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                    <!-- <img *ngIf="message?.pathToProfilePic ===null" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
                       class="rounded-circle img-fluid" style="width: 150px;"> -->
-                    <img *ngIf="message?.senderPicPath !== null"  class="rounded-circle img-fluid" [src]="message?.senderPicPath" alt="Profile Pic" style="width: 45px; height: 100%;">
+                    <img *ngIf="message?.senderPicPath !== null" class="rounded-circle img-fluid"
+                      [src]="message?.senderPicPath" alt="Profile Pic" style="width: 45px; height: 100%;">
                     <div>
                       <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">{{message.content}}
                       </p>
@@ -54,25 +49,30 @@
                       <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">{{message.content}}</p>
                       <p class="small me-3 mb-3 rounded-3 text-muted">{{message.dateTime | date:'medium'}}</p>
                     </div>
-                    <img *ngIf="message?.senderPicPath ===null" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                    <img *ngIf="message?.senderPicPath ===null"
+                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
                       alt="Profile Pic" style="width: 45px; height: 100%;">
-                      
-                      <!-- <img *ngIf="message?.pathToProfilePic ===null" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+
+                    <!-- <img *ngIf="message?.pathToProfilePic ===null" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
                       class="rounded-circle img-fluid" style="width: 150px;"> -->
-                    <img *ngIf="message?.senderPicPath !== null"  class="rounded-circle img-fluid" [src]="message?.senderPicPath" alt="Profile Pic" style="width: 45px; height: 100%;">
+                    <img *ngIf="message?.senderPicPath !== null" class="rounded-circle img-fluid"
+                      [src]="message?.senderPicPath" alt="Profile Pic" style="width: 45px; height: 100%;">
                   </div>
                 </div>
-               <div *ngIf="message.type ===2 && !(message.pathToFileAttachement==='')">
+                <div *ngIf="message.type ===2 && !(message.pathToFileAttachement==='')">
 
                   <div class="d-flex flex-row justify-content-start"
                     *ngIf="message.senderEmail !== this.chatService.senderEmail">
-                    <img *ngIf="message?.senderPicPath ===null" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
+                    <img *ngIf="message?.senderPicPath ===null"
+                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
                       alt="Profile Pic" style="width: 45px; height: 100%;">
-                      <!-- <img *ngIf="message?.pathToProfilePic ===null" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                    <!-- <img *ngIf="message?.pathToProfilePic ===null" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
                       class="rounded-circle img-fluid" style="width: 150px;"> -->
-                    <img *ngIf="message?.senderPicPath !== null"  class="rounded-circle img-fluid" [src]="message?.senderPicPath" alt="Profile Pic" style="width: 45px; height: 100%;">
-                     <div>
-                      <img [src]="message.pathToFileAttachement" alt="No image to show" style="height: 400px; width: 400px;">
+                    <img *ngIf="message?.senderPicPath !== null" class="rounded-circle img-fluid"
+                      [src]="message?.senderPicPath" alt="Profile Pic" style="width: 45px; height: 100%;">
+                    <div>
+                      <img [src]="message.pathToFileAttachement" alt="No image to show"
+                        style="height: 400px; width: 400px;">
                       <!-- <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">{{message.pathToFileAttachement}} -->
                       <!-- </p> -->
                       <p class="small ms-3 mb-3 rounded-3 text-muted float-end">{{message.dateTime | date:'medium'}}</p>
@@ -81,36 +81,43 @@
                   <div class="d-flex flex-row justify-content-end"
                     *ngIf=" (message.senderEmail === this.chatService.senderEmail)">
                     <div>
-                      <img [src]="message.pathToFileAttachement" alt="No image to show" style="height: 400px; width: 400px;">
+                      <img [src]="message.pathToFileAttachement" alt="No image to show"
+                        style="height: 400px; width: 400px;">
                       <!-- <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">{{message.pathToFileAttachement}}</p> -->
                       <p class="small me-3 mb-3 rounded-3 text-muted">{{message.dateTime | date:'medium'}}</p>
                     </div>
-                    <img *ngIf="message?.senderPicPath ===null" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                    <img *ngIf="message?.senderPicPath ===null"
+                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
                       alt="Profile Pic" style="width: 45px; height: 100%;">
-                      
-                      <!-- <img *ngIf="message?.pathToProfilePic ===null" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+
+                    <!-- <img *ngIf="message?.pathToProfilePic ===null" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
                       class="rounded-circle img-fluid" style="width: 150px;"> -->
-                    <img *ngIf="message?.senderPicPath !== null"  class="rounded-circle img-fluid" [src]="message?.senderPicPath"alt="avatar 2" style="width: 45px; height: 100%;">
+                    <img *ngIf="message?.senderPicPath !== null" class="rounded-circle img-fluid"
+                      [src]="message?.senderPicPath" alt="avatar 2" style="width: 45px; height: 100%;">
                   </div>
                 </div>
-               <div *ngIf="message.type ===3 && !(message.pathToFileAttachement==='')">
+                <div *ngIf="message.type ===3 && !(message.pathToFileAttachement==='')">
 
                   <div class="d-flex flex-row justify-content-start"
                     *ngIf="message.senderEmail !== this.chatService.senderEmail">
-                    <img *ngIf="message?.senderPicPath ===null" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
-                    alt="Profile Pic" style="width: 45px; height: 100%;">
+                    <img *ngIf="message?.senderPicPath ===null"
+                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
+                      alt="Profile Pic" style="width: 45px; height: 100%;">
                     <!-- <img *ngIf="message?.pathToProfilePic ===null" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
                     class="rounded-circle img-fluid" style="width: 150px;"> -->
-                  <img *ngIf="message?.senderPicPath !== null"  class="rounded-circle img-fluid" [src]="message?.senderPicPath"alt="Profile Pic" style="width: 45px; height: 100%;">
-                     <div>
+                    <img *ngIf="message?.senderPicPath !== null" class="rounded-circle img-fluid"
+                      [src]="message?.senderPicPath" alt="Profile Pic" style="width: 45px; height: 100%;">
+                    <div>
                       <!-- <img [src]="message.pathToFileAttachement" alt="No image to show"> -->
                       <!-- <iframe [src]="message.pathToFileAttachement | safe: 'resourceUrl'" alt="No file to show" style="height: 400px; width: 400px;"></iframe> -->
-                      <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">{{message.fileName.split('\\')[2]}}</p>
-                      <a class="large rounded-3 " style="background-color: #f5f6f7;" [href]="message.pathToFileAttachement | safe: 'resourceUrl'" alt="No file to show">
+                      <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">{{message.fileName.split('\\')[2]}}
+                      </p>
+                      <a class="large rounded-3 " style="background-color: #f5f6f7;"
+                        [href]="message.pathToFileAttachement | safe: 'resourceUrl'" alt="No file to show">
                         open file <i class="fa-sharp fa-regular fa-file-arrow-down"></i>
                         <!-- <iframe [src]="message.pathToFileAttachement | safe: 'resourceUrl'" alt="No file to show" style="height: 400px; width: 400px;"></iframe> -->
                       </a>
-                      
+
                       <p class="small ms-3 mb-3 rounded-3 text-muted float-end">{{message.dateTime | date:'medium'}}</p>
                     </div>
                   </div>
@@ -118,26 +125,30 @@
                     *ngIf=" (message.senderEmail === this.chatService.senderEmail)">
                     <div>
                       <!-- <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">{{message.pathToFileAttachement}}</p> -->
-                      <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">{{message.fileName.split('\\')[2]}}</p>
-                      <a class="large rounded-3 " style="background-color: #f5f6f7;" [href]="message.pathToFileAttachement | safe: 'resourceUrl'" alt="No file to show">
+                      <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">{{message.fileName.split('\\')[2]}}
+                      </p>
+                      <a class="large rounded-3 " style="background-color: #f5f6f7;"
+                        [href]="message.pathToFileAttachement | safe: 'resourceUrl'" alt="No file to show">
                         open file <i class="fa-sharp fa-regular fa-file-arrow-down"></i>
                         <!-- <iframe [src]="message.pathToFileAttachement | safe: 'resourceUrl'" alt="No file to show" style="height: 400px; width: 400px;"></iframe> -->
                       </a>
-                      
+
                       <p class="small me-3 mb-3 rounded-3 text-muted">{{message.dateTime | date:'medium'}}</p>
                     </div>
-                    <img *ngIf="message?.senderPicPath ===null" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                    <img *ngIf="message?.senderPicPath ===null"
+                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
                       alt="Profile Pic" style="width: 45px; height: 100%;">
-                      
-                      <!-- <img *ngIf="message?.pathToProfilePic ===null" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+
+                    <!-- <img *ngIf="message?.pathToProfilePic ===null" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
                       class="rounded-circle img-fluid" style="width: 150px;"> -->
-                    <img *ngIf="message?.senderPicPath !== null"  class="rounded-circle img-fluid" [src]="message?.senderPicPath" alt="avatar 2" style="width: 45px; height: 100%;">
+                    <img *ngIf="message?.senderPicPath !== null" class="rounded-circle img-fluid"
+                      [src]="message?.senderPicPath" alt="avatar 2" style="width: 45px; height: 100%;">
                   </div>
                 </div>
               </div>
 
             </div>
-        
+
             <div class="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2">
               <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 3"
                 style="width: 40px; height: 100%;">
@@ -146,12 +157,13 @@
               <!-- <a class="ms-1 text-muted" href="#!"><i class="fas fa-paperclip "></i></a>
               <a class="ms-3 text-muted" href="#!"><i class="fas fa-smile"></i></a>
               <a class="ms-3" href="#!"><i class="fas fa-paper-plane"></i></a> -->
-              <input hidden type="file" id="imgFile" #imgfile  accept="image/png, image/gif, image/jpeg" (change)="imageUpload($event)">
+              <input hidden type="file" id="imgFile" #imgfile accept="image/png, image/gif, image/jpeg"
+                (change)="imageUpload($event)">
               <button (click)="imgfile.click()">i</button>
               <input hidden type="file" id="allFile" #allfile (change)="fileUpload($event)">
               <button (click)="allfile.click()">f</button>
-              <button id="sendButton" #sendButton type="button" class="btn btn-light btn-primary btn-lg btn-rounded float-end"
-                (click)="send()">Send</button>
+              <button id="sendButton" #sendButton type="button"
+                class="btn btn-light btn-primary btn-lg btn-rounded float-end" (click)="send()">Send</button>
             </div>
 
           </div>

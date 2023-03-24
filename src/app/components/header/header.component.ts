@@ -12,7 +12,7 @@ import { ChatService } from 'src/app/services/chat.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  constructor(private authService : AuthService , private router:Router, private chatService:ChatService){}
+  constructor(private authService : AuthService , private router:Router, ){}
   signOut(){
     this.authService.signOut();
     }

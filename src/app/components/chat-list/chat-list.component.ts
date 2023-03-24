@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { debounceTime, distinctUntilChanged, Subject, Subscription, switchMap } from 'rxjs';
 import { ChatService } from 'src/app/services/chat.service';
 
@@ -12,6 +12,9 @@ import { ChatService } from 'src/app/services/chat.service';
   styleUrls: ['./chat-list.component.css']
 })
 export class ChatListComponent implements OnInit {
+  @ViewChild('search') search!: ElementRef;
+
+  
   private searchSubscription?: Subscription;
   userlist = false;
   connectedUsers : any
@@ -73,6 +76,8 @@ console.log(this.connectedUsers)
     // this.searchSubscription?.unsubscribe();
     // this.searchQuery=''
     this.searchResults.length = 0
+    this.search.nativeElement.value = ''
+    // this.search.nativeElement.blur()
     this.chatService.searchUserByEmail(this.chatService.receiverEmail)
     .subscribe(
         (res:any) => {
@@ -89,5 +94,9 @@ console.log(this.connectedUsers)
         }
         )
         
+  }
+
+  doSomething(): void {
+    this.search.nativeElement.blur()
   }
 }
