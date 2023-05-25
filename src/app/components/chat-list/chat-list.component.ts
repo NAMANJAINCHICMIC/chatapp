@@ -26,7 +26,7 @@ export class ChatListComponent implements OnInit {
   public ngOnInit(): void {
     this.searchSubscription = this.searchSubject
       .pipe(
-        debounceTime(300),
+        debounceTime(700),
         distinctUntilChanged(),
         switchMap((searchQuery) => this.chatService.searchUser(searchQuery))
       )

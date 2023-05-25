@@ -85,7 +85,10 @@ ngOnInit(): void {
   //   }
   // );
   this.chatService.notification.subscribe((name:string)=>{
-    this.showToasterInfo(name)
+    if(name){
+
+      this.showToasterInfo(name)
+    }
   })
 }
 // ngAfterViewInit() {

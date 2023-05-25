@@ -77,6 +77,10 @@ export class HomeComponent implements OnInit {
         // console.log(this.searchUserDataSubscription)
         console.log(this.userName)
   }
+
+  ngDestroy(){
+    this.chatService.stopChatConnection();
+  }
 signOut(){
 this.authService.signOut();
 }
