@@ -1,4 +1,4 @@
-<div class="mask d-flex align-items-center h-100 gradient-custom-3">
+<div class="mask d-flex align-items-center h-100 gradient-custom-3 mt-2 mb-2">
   <div class="container h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-12 col-md-9 col-lg-7 col-xl-6">
@@ -10,7 +10,7 @@
     <div class="col mb-3">
       <label for="inputFirstname">First Name</label>
 
-      <input type="text" class="form-control "
+      <input type="text" class="form-control  "
         [ngClass]="{'is-invalid': controlName.firstName.errors && (controlName.firstName.touched || controlName.firstName.dirty), 'is-valid':controlName.firstName.valid}"
         formControlName="firstName" placeholder="First name">
       <div *ngIf="controlName.firstName.invalid && showError "
@@ -101,7 +101,7 @@
       <label for="inputPassword4">Password</label>
       <!-- <i class="fa fa-eye" aria-hidden="true"></i> -->
       <div class="d-flex">
-        <input [type]="visible?'password':'text'" class="form-control col " id="inputPassword4"
+        <input [type]="visible?'password':'text'" class="form-control col col-lg-8  form-control-lg " id="inputPassword4"
           formControlName="password" 
           [ngClass]="{'is-invalid': controlName.password.errors && (controlName.password.touched || controlName.password.dirty), 'is-valid':controlName.password.valid}"
           placeholder="Password">
@@ -110,7 +110,7 @@
         </span>
       </div>
       <div *ngIf="controlName.password.invalid && showError "
-      class="alert alert-danger">
+      class="alert alert-danger col-lg-8">
       <div *ngIf="controlName.password.errors?.['required']">
         Password is required.
       </div>

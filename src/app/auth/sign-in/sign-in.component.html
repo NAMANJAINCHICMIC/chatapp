@@ -1,27 +1,27 @@
-<div class="mask d-flex align-items-center h-100 gradient-custom-3">
+<div class="mask d-flex align-items-center h-100 gradient-custom-3 mt-3 mb-3">
   <div class="container h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-12 col-md-9 col-lg-7 col-xl-6">
         <div class="card" style="border-radius: 15px;">
           <div class="card-body p-5">
             <h2 class="text-uppercase text-center mb-5">Login account</h2>
-            <form [formGroup]="loginForm" class="" (ngSubmit)="onSubmit()">
-              <div class="form-group form-outline mb-4">
+            <form [formGroup]="loginForm"  (ngSubmit)="onSubmit()">
+              <div class="form-group form-outline mb-4 ">
                 <label for="exampleInputEmail1">Email address</label>
-                <input type="email" required
+                <input type="email" required 
                   [ngClass]="{'is-invalid': controlName.email.errors && (controlName.email.touched || controlName.email.dirty), 'is-valid':controlName.email.valid}"
-                  formControlName="email" class="form-control form-control-lg " id="exampleInputEmail1"
+                  formControlName="email" class="form-control col col-lg-9  form-control-lg" id="exampleInputEmail1"
                   aria-describedby="emailHelp" placeholder="Enter email">
-                <div class="alert alert-danger" *ngIf="controlName.email.errors?.['required'] && showError ">
+                <div class="alert alert-danger col col-lg-9  form-control-lg" *ngIf="controlName.email.errors?.['required'] && showError ">
                   Email is required.
                 </div>
 
               </div>
-              <div class="form-group form-outline mb-4">
+              <div class="form-group form-outline mb-4 ">
                 <label for="exampleInputPassword1">Password</label>
                 <!-- <input type="password" class="form-control col-md-4" id="exampleInputPassword1" formControlName="password"  [ngClass]="{'is-invalid': controlName.password.errors && (controlName.password.touched || controlName.password.dirty), 'is-valid':controlName.password.valid}" placeholder="Password"> -->
                 <div class="d-flex ">
-                  <input [type]="visible?'password':'text'" class="form-control col   form-control-lg"
+                  <input [type]="visible?'password':'text'" class="form-control col col-lg-9  form-control-lg"
                     id="inputPassword4" formControlName="password"
                     [ngClass]="{'is-invalid': controlName.password.errors && (controlName.password.touched || controlName.password.dirty), 'is-valid':controlName.password.valid}"
                     placeholder="Password">
@@ -29,33 +29,38 @@
                       [ngClass]="visible?'fa fa-eye':'fa fa-eye-slash'" (click)="viewPassword()"></i>
                   </span>
                 </div>
-                <div class="alert alert-danger" *ngIf="controlName.password.errors?.['required'] && showError">
+                <div class="alert alert-danger col col-lg-9  form-control-lg" *ngIf="controlName.password.errors?.['required'] && showError">
                   Password is required.
                 </div>
-                <div *ngIf="controlName.password.errors?.['pattern'] && showError" class="alert alert-danger">
+                <div *ngIf="controlName.password.errors?.['pattern'] && showError" class="alert alert-danger col col-lg-9  form-control-lg">
                   Password must be at least eight characters, at least one uppercase letter, one lowercase letter, one
                   number and one special character:
                 </div>
      
 
               </div>
-       
-              <button type="submit" class="btn btn-primary">Submit</button>
-              <p>Don't have Account <a class="nav-link" (click)="onClick()">Create One!</a></p>
-              <a class="nav-link" (click)="onClickForget()">Forget Password</a>
+       <div class="">
+         <button type="submit" class="btn btn-primary">Submit</button>
+
+       </div>
+              <p class="mt-3">Don't have Account <a class="nav-link mt-2" (click)="onClick()">Create One!</a></p>
+              <a class="nav-link mt-2" (click)="onClickForget()">Forget Password</a>
             </form>
             <hr>
             <div>
               <h2>OR</h2>
-              <div style="padding: 20px;">
-                <!-- <a  class="nav-link">Sign in with google</a>   -->
-              </div>
+              <!-- <div style="padding: 20px;">
+                <a  class="nav-link">Sign in with google</a>  
+              </div> -->
             </div>
             <!-- <asl-google-signin-button></asl-google-signin-button> -->
             <div>
 
-              <asl-google-signin-button type='icon' size='medium'></asl-google-signin-button><a class="nav-link">Sign in
-                with google</a>
+              <asl-google-signin-button type='icon' size='medium'></asl-google-signin-button>
+              <p>Sign in
+                with google</p>
+              <!-- <a class="nav-link">Sign in
+                with google</a> -->
               <!-- <button (click)="signInWithFB()">Sign with facebook</button> -->
             </div>
             <!-- <div
@@ -72,12 +77,16 @@ data-scope="<comma separated list of permissions, e.g. public_profile, email>"
   scope="public_profile,email"
   onlogin="checkLoginState();">
 </fb:login-button> -->
-            <div class="fb-login-button" data-width="" data-size="" data-button-type="" data-layout=""
+
+
+            <!-- <div class="fb-login-button" data-width="" data-size="" data-button-type="" data-layout=""
               data-auto-logout-link="true" data-use-continue-as="false"></div>
             <div id="fb-root"></div>
             <script async defer crossorigin="anonymous"
               src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v16.0&appId=516188470694250&autoLogAppEvents=1"
-              nonce="YPYncnVk"></script>
+              nonce="YPYncnVk"></script> -->
+
+
             <!-- <script>
   window.fbAsyncInit = function() {
     FB.init({

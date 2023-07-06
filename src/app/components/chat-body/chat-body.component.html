@@ -159,11 +159,11 @@
               <a class="ms-3" href="#!"><i class="fas fa-paper-plane"></i></a> -->
               <input hidden type="file" id="imgFile" #imgfile accept="image/png, image/gif, image/jpeg"
                 (change)="imageUpload($event)">
-              <button (click)="imgfile.click()">i</button>
+              <button (click)="imgfile.click()" class="btn btn-outline-info m-1">i</button>
               <input hidden type="file" id="allFile" #allfile (change)="fileUpload($event)">
-              <button (click)="allfile.click()">f</button>
+              <button (click)="allfile.click()" class="btn btn-outline-info m-1">f</button>
               <button id="sendButton" #sendButton type="button"
-                class="btn btn-light btn-primary btn-lg btn-rounded float-end" (click)="send()">Send</button>
+                class="btn btn-light btn-primary btn-lg btn-rounded float-end btn-outline-info m-1" (click)="send()">Send</button>
             </div>
 
           </div>
