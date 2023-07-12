@@ -52,7 +52,7 @@ export class UpdateProfileComponent implements OnInit{
   ngOnInit(): void {
     this.authService.userProfile().subscribe((res:any)=>{
       this.myself =res.data
-      console.log(res);
+      this.myself.dateOfBirth = this.myself.dateOfBirth.slice(0,10);
       this.updateProfileForm = new FormGroup(
         {
           firstName: new FormControl(this.myself.firstName, [Validators.required , Validators.minLength(3)]),
@@ -64,6 +64,7 @@ export class UpdateProfileComponent implements OnInit{
         }
       )
       // console.log(this.myself);
+      // console.log(this.updateProfileForm.value)
     })
     }
   // form: any = {
