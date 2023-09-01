@@ -19,20 +19,26 @@ const routes: Routes = [
   {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'sign-in'
+        redirectTo: ''
     },
     {
-        path: 'sign-in',
-        component: SignInComponent,
-        canActivate:[AuthGuard]
+        path: '',
+        loadChildren:()=>import('./auth/auth/auth.module').then(m=>m.AuthModule),
+ 
         // canActivate:[AuthTwoGuard]
     },
-    {
-        path: 'sign-up',
-        component: SignUpComponent,
-        canActivate:[AuthGuard]
-        // canActivate:[AuthTwoGuard]
-    },
+    // {
+    //     path: 'sign-in',
+    //     component: SignInComponent,
+    //     canActivate:[AuthGuard]
+    //     // canActivate:[AuthTwoGuard]
+    // },
+    // {
+    //     path: 'sign-up',
+    //     component: SignUpComponent,
+    //     canActivate:[AuthGuard]
+    //     // canActivate:[AuthTwoGuard]
+    // },
     {path:'reset-password',component: ResetPasswordComponent},
     {path:'verify-user',component: VerifyUserComponent},
     {path:'change-password',component:ChangePasswordComponent,  canActivate:[AuthGuard]},
